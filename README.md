@@ -1,6 +1,6 @@
 # Personal Portfolio
 
-A full-stack personal portfolio application built with Flask (Backend) and React + TypeScript (Frontend).  
+A full-stack personal portfolio application built with Flask (Backend) and React + TypeScript (Frontend).   
 
 ## Project Structure
 ```
