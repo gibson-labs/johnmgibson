@@ -5,7 +5,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [ self-hosted, portfolio ]
+    runs-on: [ self-hosted, gibsonlabs ]
 
     steps:
       - name: Checkout code
