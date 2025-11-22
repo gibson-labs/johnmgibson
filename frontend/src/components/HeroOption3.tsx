@@ -33,7 +33,7 @@ const HeroOption3 = () => {
               <div className="h-1 w-20 bg-gradient-to-r from-primary to-transparent rounded-full" />
               <p className="text-base text-muted-foreground/80">
                 Information Systems Student at BYU's Marriott School of Business,
-                specializing in AI Solutions and full-stack development.
+                specializing in AI Solutions and full-stack development. 
               </p>
             </div>
 
