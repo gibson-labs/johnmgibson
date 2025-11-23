@@ -64,7 +64,10 @@ const HeroOption3 = () => {
           </div>
 
           {/* Right - Large impactful image */}
-          <div className="order-1 md:order-2 flex justify-center md:justify-end animate-fade-in opacity-0" style={{ animationDelay: '0.4s' }}>
+          <div
+            className="order-1 md:order-2 flex justify-center md:justify-end animate-fade-in opacity-0 mt-10 md:mt-0"
+            style={{ animationDelay: '0.4s' }}
+          >
             <div className="relative">
               {/* Glow effect behind image */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-primary/10 blur-3xl rounded-full scale-110" />
