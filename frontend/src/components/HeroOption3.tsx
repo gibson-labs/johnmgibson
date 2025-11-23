@@ -65,7 +65,7 @@ const HeroOption3 = () => {
 
           {/* Right - Large impactful image */}
           <div
-            className="order-1 md:order-2 flex justify-center md:justify-end animate-fade-in opacity-0 mt-10 md:mt-0"
+            className="order-1 md:order-2 flex justify-center md:justify-end animate-fade-in opacity-0 mt-16 md:mt-0"
             style={{ animationDelay: '0.4s' }}
           >
             <div className="relative">
