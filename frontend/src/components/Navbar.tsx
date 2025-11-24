@@ -38,7 +38,7 @@ const Navbar = () => {
           <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70 group-hover:from-primary/80 group-hover:to-primary transition-all">
             John Gibson
           </span>
-          <div className={`h-px w-8 bg-gradient-to-r from-primary to-transparent transition-all duration-300 ${isScrolled ? 'w-12' : 'w-8'}`} />
+          
         </a>
 
         {/* Desktop Navigation */}

@@ -23,6 +23,10 @@ const skillsData: SkillCategory[] = [
   {
     name: "Tools",
     skills: ["VS Code", "Figma", "Postman", "npm/yarn"]
+  },
+  {
+    name: "AI",
+    skills: ["Azure ML", "LangChain", "LangGraph", "AI Agents", "AWS Bedrock", "LiteLLM"]
   }
 ];
 

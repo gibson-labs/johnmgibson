@@ -66,7 +66,7 @@ const Projects = () => {
         <div className="container mx-auto px-4">
           <h2 className="section-heading">Featured Projects</h2>
           <p className="text-muted-foreground mb-12 max-w-2xl">
-            A selection of my recent work. Each project presented unique challenges and opportunities for growth.
+            A selection of my recent work.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
