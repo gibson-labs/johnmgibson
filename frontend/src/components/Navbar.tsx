@@ -27,7 +27,12 @@ const Navbar = () => {
   ];
 
   return (
-    <header className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-background/80 backdrop-blur-lg shadow-lg shadow-primary/5 border-b border-primary/10' : 'bg-transparent'}`}>
+    <header
+      className={`fixed left-0 w-full z-50 transition-all duration-300 ${isScrolled
+        ? 'top-0 bg-background/80 backdrop-blur-lg shadow-lg shadow-primary/5 border-b border-primary/10'
+        : 'top-4 md:top-6 bg-transparent'
+      }`}
+    >
       <div className="container mx-auto px-4 py-6 flex items-center justify-between">
         <a href="#home" className="group flex items-center gap-2">
           <span className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70 group-hover:from-primary/80 group-hover:to-primary transition-all">
