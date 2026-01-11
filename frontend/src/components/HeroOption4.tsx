@@ -41,7 +41,7 @@ const HeroOption4 = () => {
             <div className="flex items-center gap-3 mb-6 animate-fade-in opacity-0" style={{ animationDelay: '0.6s' }}>
               <Sparkles size={20} className="text-primary" />
               <h2 className="text-xl md:text-2xl text-primary font-semibold tracking-wide">
-                SOFTWARE ENGINEER
+                AI ENGINEER
               </h2>
             </div>
 
