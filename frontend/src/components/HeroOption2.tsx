@@ -49,8 +49,7 @@ const HeroOption2 = () => {
           </p>
 
           <p className="text-base text-muted-foreground/70 mb-8 max-w-2xl leading-relaxed animate-fade-in opacity-0" style={{ animationDelay: '1s' }}>
-            Building modern web applications with React, TypeScript, and Python.
-            Focused on creating secure, scalable solutions that solve real-world problems.
+            I build secure, scalable applications that automate workflows using AI and machine learning, eliminating manual work and improving efficiency.
           </p>
 
           {/* Profile image - centered below text */}

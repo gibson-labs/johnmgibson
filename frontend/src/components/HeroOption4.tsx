@@ -50,8 +50,7 @@ const HeroOption4 = () => {
             </p>
 
             <p className="text-base text-muted-foreground/70 mb-8 leading-relaxed animate-fade-in opacity-0" style={{ animationDelay: '1s' }}>
-              Building modern web applications with React, TypeScript, and Python.
-              Focused on creating secure, scalable solutions that solve real-world problems.
+              I build secure, scalable applications that automate workflows using AI and machine learning, eliminating manual work and improving efficiency.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in opacity-0" style={{ animationDelay: '1.2s' }}>
