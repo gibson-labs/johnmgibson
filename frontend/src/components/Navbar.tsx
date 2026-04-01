@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -19,11 +20,15 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const location = useLocation();
+  const onHome = location.pathname === "/";
+
   const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Projects", href: "#projects" },
-    { name: "Skills", href: "#skills" },
-    { name: "Contact", href: "#contact" }
+    { name: "Home", href: onHome ? "#home" : "/", page: false },
+    { name: "Projects", href: "/projects", page: true },
+    { name: "Experience", href: onHome ? "#experience" : "/#experience", page: false },
+    { name: "Skills", href: onHome ? "#skills" : "/#skills", page: false },
+    { name: "Contact", href: onHome ? "#contact" : "/#contact", page: false },
   ];
 
   return (
@@ -43,7 +48,16 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(link => (
+          {navLinks.map(link => link.page ? (
+            <Link
+              key={link.name}
+              to={link.href}
+              className="relative text-foreground/80 hover:text-foreground transition-colors font-medium group"
+            >
+              {link.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/60 group-hover:w-full transition-all duration-300" />
+            </Link>
+          ) : (
             <a
               key={link.name}
               href={link.href}
@@ -77,7 +91,16 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-background/95 backdrop-blur-lg border-t border-primary/10">
           <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
-            {navLinks.map(link => (
+            {navLinks.map(link => link.page ? (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="text-foreground/80 hover:text-foreground transition-colors py-2 px-4 rounded-lg hover:bg-primary/10 font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ) : (
               <a
                 key={link.name}
                 href={link.href}

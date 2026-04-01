@@ -1,8 +1,8 @@
-name: Deploy Portfolio
+name: Deploy John Gibson Portfolio
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, dev ]
 
 jobs:
   deploy:
@@ -12,8 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build & deploy with Docker Compose
-        working-directory: ${{ github.workspace }}
+      - name: Build & deploy
         run: |
-          docker compose down --remove-orphans
-          docker compose up -d --build --remove-orphans
+          cd "${{ github.workspace }}"
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            COMPOSE_FILE="docker-compose.yml"
+            PROJECT_NAME="johnmgibson"
+          else
+            COMPOSE_FILE="docker-compose.dev.yml"
+            PROJECT_NAME="johnmgibson-dev"
+          fi
+          docker compose -p "$PROJECT_NAME" -f "$COMPOSE_FILE" down --remove-orphans
+          docker compose -p "$PROJECT_NAME" -f "$COMPOSE_FILE" build --no-cache
+          docker compose -p "$PROJECT_NAME" -f "$COMPOSE_FILE" up -d --force-recreate --remove-orphans
+        env:
+          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}

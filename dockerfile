@@ -4,7 +4,7 @@ WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ .
-RUN npm run build  # -> /frontend/dist
+RUN npm run build
 
 # ---- Python runtime ----
 FROM python:3.12-slim AS runtime
@@ -17,7 +17,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
       build-essential \
-    && rm -rf /var/lib/apt/lists/
+    && rm -rf /var/lib/apt/lists/*
 
 # Python deps
 COPY backend/requirements.txt ./requirements.txt
@@ -28,6 +28,9 @@ COPY backend/ ./
 
 # Serve built frontend from /app/static
 COPY --from=fe-build /frontend/dist /app/static
+
+# Persistent dirs (mounted as volumes)
+RUN mkdir -p /app/static/uploads /app/data
 
 EXPOSE 5000
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]

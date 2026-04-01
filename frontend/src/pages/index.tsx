@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar';
 import Hero from '@/components/HeroOption4';
 import Projects from '@/components/Projects';
 import Skills from '@/components/Skills';
+import Experience from '@/components/home/Experience';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
@@ -31,6 +32,12 @@ const Index = () => {
         </div>
 
         <Skills />
+
+        <div className="container mx-auto px-4">
+          <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+        </div>
+
+        <Experience />
 
         <div className="container mx-auto px-4">
           <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
