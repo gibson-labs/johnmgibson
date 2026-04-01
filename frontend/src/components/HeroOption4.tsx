@@ -34,7 +34,7 @@ const HeroOption4 = () => {
             {/* Gradient name from Option 2, layout from Option 3 */}
             <h1 className="text-6xl md:text-8xl font-bold mb-6 leading-none animate-fade-in opacity-0" style={{ animationDelay: '0.4s' }}>
               <span className="bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">
-                Josh Gibson
+                John Gibson
               </span>
             </h1>
 

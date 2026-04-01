@@ -1,62 +1,58 @@
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { EXPERIENCES } from "@/lib/portfolioData";
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-20 bg-card/30">
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <h2 className="section-heading">Experience</h2>
-          <p className="text-muted-foreground text-lg mt-2">
-            My professional journey so far.
+    <section id="experience" className="py-24">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-16">
+          <p className="text-primary font-medium tracking-widest text-sm uppercase mb-3">
+            Career Path
           </p>
-        </motion.div>
+          <h2 className="section-heading">Experience</h2>
+        </div>
 
-        <div className="relative max-w-3xl">
+        <div className="max-w-2xl mx-auto relative">
           {/* Vertical line */}
-          <div className="absolute left-4 sm:left-6 top-0 bottom-0 w-px bg-border" />
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-0.5 bg-border md:-translate-x-px" />
 
-          <div className="space-y-10">
-            {EXPERIENCES.map((exp, i) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="relative pl-12 sm:pl-16"
+          {EXPERIENCES.map((exp, i) => (
+            <div
+              key={exp.id}
+              className={`relative flex items-start mb-12 last:mb-0 animate-fade-in-up opacity-0 ${
+                i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              }`}
+              style={{ animationDelay: `${i * 0.15}s` }}
+            >
+              {/* Dot */}
+              <div className="absolute left-6 md:left-1/2 w-3 h-3 bg-primary rounded-full -translate-x-1/2 mt-2 z-10 ring-4 ring-background" />
+
+              {/* Content */}
+              <div
+                className={`ml-14 md:ml-0 md:w-[calc(50%-2rem)] ${
+                  i % 2 === 0 ? "md:pr-8 md:text-right" : "md:pl-8"
+                }`}
               >
-                {/* Dot */}
-                <div className="absolute left-[11px] sm:left-[19px] top-5 w-3.5 h-3.5 rounded-full bg-primary border-4 border-background" />
-
-                <div className="bg-card rounded-2xl border border-border p-6 hover:shadow-lg hover:shadow-primary/5 transition-all duration-300">
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
-                    <h3 className="text-lg font-semibold text-foreground">{exp.role}</h3>
-                    <span className="text-sm text-muted-foreground">{exp.period}</span>
-                  </div>
-                  <p className="text-primary font-medium text-sm mb-3">{exp.company}</p>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-4">
-                    {exp.description}
-                  </p>
-                  <Link
-                    to={`/projects?category=Full-Stack`}
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
-                  >
-                    View Related Projects
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                <span className="text-xs text-muted-foreground font-medium tracking-wide">
+                  {exp.period}
+                </span>
+                <h3 className="font-semibold text-xl mt-1 text-foreground">{exp.role}</h3>
+                <p className="text-primary font-medium text-sm">{exp.company}</p>
+                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                  {exp.description}
+                </p>
+                <Link
+                  to="/projects"
+                  className={`inline-flex items-center gap-1.5 text-sm font-medium text-primary mt-3 hover:gap-2.5 transition-all ${
+                    i % 2 === 0 ? "md:flex-row-reverse" : ""
+                  }`}
+                >
+                  View Projects <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
