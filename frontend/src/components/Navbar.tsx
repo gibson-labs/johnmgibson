@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -20,15 +20,10 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const location = useLocation();
-  const onHome = location.pathname === "/";
-
   const navLinks = [
-    { name: "Home", href: onHome ? "#home" : "/", page: false },
+    { name: "Home", href: "/", page: true },
     { name: "Projects", href: "/projects", page: true },
-    { name: "Experience", href: onHome ? "#experience" : "/#experience", page: false },
-    { name: "Skills", href: onHome ? "#skills" : "/#skills", page: false },
-    { name: "Contact", href: onHome ? "#contact" : "/#contact", page: false },
+    { name: "Contact", href: "/contact", page: true },
   ];
 
   return (
@@ -48,7 +43,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(link => link.page ? (
+          {navLinks.map(link => (
             <Link
               key={link.name}
               to={link.href}
@@ -57,15 +52,6 @@ const Navbar = () => {
               {link.name}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/60 group-hover:w-full transition-all duration-300" />
             </Link>
-          ) : (
-            <a
-              key={link.name}
-              href={link.href}
-              className="relative text-foreground/80 hover:text-foreground transition-colors font-medium group"
-            >
-              {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/60 group-hover:w-full transition-all duration-300" />
-            </a>
           ))}
           <Button
             className="shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all"
@@ -91,7 +77,7 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-background/95 backdrop-blur-lg border-t border-primary/10">
           <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
-            {navLinks.map(link => link.page ? (
+            {navLinks.map(link => (
               <Link
                 key={link.name}
                 to={link.href}
@@ -100,15 +86,6 @@ const Navbar = () => {
               >
                 {link.name}
               </Link>
-            ) : (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-foreground/80 hover:text-foreground transition-colors py-2 px-4 rounded-lg hover:bg-primary/10 font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.name}
-              </a>
             ))}
             <Button className="w-full shadow-lg shadow-primary/20" asChild>
               <a

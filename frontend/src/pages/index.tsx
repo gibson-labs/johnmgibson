@@ -2,9 +2,8 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/HeroOption4';
 import Projects from '@/components/Projects';
-import Skills from '@/components/Skills';
 import Experience from '@/components/home/Experience';
-import Contact from '@/components/Contact';
+import Skills from '@/components/Skills';
 import Footer from '@/components/Footer';
 
 const Index = () => {
@@ -31,19 +30,13 @@ const Index = () => {
           <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         </div>
 
-        <Skills />
-
-        <div className="container mx-auto px-4">
-          <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-        </div>
-
         <Experience />
 
         <div className="container mx-auto px-4">
           <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         </div>
 
-        <Contact />
+        <Skills />
         <Footer />
       </div>
     </div>
