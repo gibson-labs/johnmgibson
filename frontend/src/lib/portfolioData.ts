@@ -65,14 +65,41 @@ export const SEED_PROJECTS: Omit<Project, "id">[] = [
   },
 ];
 
-// Experience data — update with your real job history
 export const EXPERIENCES: Experience[] = [
   {
     id: 1,
-    role: "Your Role Here",
-    company: "Company Name",
-    filterCompany: "company-name",
-    period: "Jan 2024 – Present",
-    description: "Add your job description here. What did you build, own, or improve?",
+    role: "AI Solutions Engineer Intern",
+    company: "MasterControl",
+    filterCompany: "MasterControl",
+    period: "Nov 2025 – Present",
+    description:
+      "Architected an end-to-end OpenTelemetry pipeline on AWS (Lambda, Glue, Athena) to track LLM latency and token usage across internal AI platforms serving 800+ employees. Built TypeScript MCP servers enabling Claude Code and other clients to manage Open WebUI and LiteLLM resources, and engineered 15+ AWS CDK stacks with automated CI/CD via GitHub Actions.",
+  },
+  {
+    id: 2,
+    role: "Software Developer – Team Lead",
+    company: "BYU Print and Mail Services",
+    filterCompany: "BYU Print and Mail Services",
+    period: "Jun 2024 – Nov 2025",
+    description:
+      "Rebuilt legacy Pascal billing systems into a modern Flask + Angular web app, saving $70K+ annually in labor costs. Automated shipment, refund, and billing processes across 12+ Oracle tables, cutting manual accounting work by 80%, and deployed containerized environments with Docker and GitHub Actions — reducing deployment time by 50%.",
+  },
+  {
+    id: 3,
+    role: "Application Test Engineer",
+    company: "Office of Information Technology, BYU",
+    filterCompany: "OIT",
+    period: "Jun 2023 – Apr 2024",
+    description:
+      "Executed feature, integration, and acceptance tests for financial planning systems and built Python automation scripts to handle repetitive test cases. Detected and drove resolution of 200+ high-impact defects, reducing production incidents by 35%.",
+  },
+  {
+    id: 4,
+    role: "Project Manager",
+    company: "Turf Sports (On-Campus Internship)",
+    filterCompany: "Turf Sports",
+    period: "Jan 2023 – May 2023",
+    description:
+      "Led UI development for an upcoming sports tournament app using TestFlight and Figma, and built a marketing plan to recruit 50+ new users. Managed a 40+ deliverable project plan in Trello and ran weekly planning sessions across a 5-person team to drive the app from concept to launch.",
   },
 ];
