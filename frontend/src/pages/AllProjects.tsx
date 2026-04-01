@@ -4,6 +4,7 @@ import { useSearchParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { api } from "@/lib/api";
 import { Project } from "@/types/project";
+import { SEED_PROJECTS } from "@/lib/portfolioData";
 import FilterBar from "@/components/portfolio/FilterBar";
 import ProjectCard from "@/components/portfolio/ProjectCard";
 import ProjectModal from "@/components/portfolio/ProjectModal";
@@ -21,10 +22,12 @@ export default function AllProjects() {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    api.getProjects().then((data) => {
-      setProjects(data);
-      setLoading(false);
-    });
+    api.getProjects()
+      .then((data) => setProjects(data))
+      .catch(() =>
+        setProjects(SEED_PROJECTS.map((p, i) => ({ ...p, id: i + 1 })))
+      )
+      .finally(() => setLoading(false));
   }, []);
 
   // Sync filters from URL params

@@ -3,15 +3,23 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { api } from '@/lib/api';
 import { Project } from '@/types/project';
+import { SEED_PROJECTS } from '@/lib/portfolioData';
 import ProjectCard from '@/components/portfolio/ProjectCard';
 import ProjectModal from '@/components/portfolio/ProjectModal';
+
+// Fallback for when backend isn't reachable (local dev without Flask running)
+const FALLBACK: Project[] = SEED_PROJECTS
+  .filter((p) => p.featured)
+  .map((p, i) => ({ ...p, id: i + 1 }));
 
 const Projects = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
-    api.getProjects(true).then(setProjects);
+    api.getProjects(true)
+      .then(setProjects)
+      .catch(() => setProjects(FALLBACK));
   }, []);
 
   return (
