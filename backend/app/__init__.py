@@ -6,8 +6,11 @@ import os
 load_dotenv()
 
 
+STATIC_FOLDER = "/app/static"
+
+
 def create_app():
-    app = Flask(__name__, static_folder="/app/static", static_url_path="")
+    app = Flask(__name__)
     CORS(app)
 
     # Config
@@ -31,7 +34,7 @@ def create_app():
 
     # Create tables + upload dir + seed on startup
     with app.app_context():
-        os.makedirs("/app/static/uploads", exist_ok=True)
+        os.makedirs(os.path.join(STATIC_FOLDER, "uploads"), exist_ok=True)
         os.makedirs("/app/data", exist_ok=True)
         db.create_all()
         _seed(db)
@@ -40,10 +43,9 @@ def create_app():
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
     def serve(path):
-        static_folder = app.static_folder or "/app/static"
-        if path and os.path.exists(os.path.join(static_folder, path)):
-            return send_from_directory(static_folder, path)
-        return send_from_directory(static_folder, "index.html")
+        if path and os.path.isfile(os.path.join(STATIC_FOLDER, path)):
+            return send_from_directory(STATIC_FOLDER, path)
+        return send_from_directory(STATIC_FOLDER, "index.html")
 
     return app
 
