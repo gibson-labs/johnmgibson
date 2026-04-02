@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Clean workspace
-        run: docker run --rm -v "$GITHUB_WORKSPACE:/workspace" busybox rm -rf /workspace/data-dev 2>/dev/null || true
+        run: docker run --rm -v "$GITHUB_WORKSPACE:/workspace" busybox sh -c "rm -rf /workspace/data /workspace/data-dev" 2>/dev/null || true
 
       - name: Checkout code
         uses: actions/checkout@v4
