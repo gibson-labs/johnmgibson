@@ -1,6 +1,8 @@
 import { Project, Experience } from "@/types/project";
 import CineNiche from "@/assets/images/CineNiche.jpeg";
 import TurtleShelter from "@/assets/images/TurtleShelter.png";
+import N8nServer from "@/assets/images/n8n_server.jpeg";
+import N8nDiscord from "@/assets/images/n8n_discord.jpeg";
 
 export const CATEGORIES = ["Full-Stack", "AI/ML", "Frontend", "Backend", "Data"];
 
@@ -43,6 +45,20 @@ export const PROJECTS: Project[] = [
     role: "Lead Developer",
     timeline: "3 months",
     teamSize: 5,
+  },
+  {
+    id: 4,
+    title: "AI-Powered HomeLab Monitor",
+    description: "An autonomous monitoring system built with n8n that watches my self-hosted server, diagnoses issues, and routes fixes through a human-in-the-loop approval flow on Discord.",
+    thumbnail: N8nServer,
+    gallery: [N8nDiscord],
+    category: "AI/ML",
+    technologies: ["n8n", "Docker", "Discord API", "AI Agents"],
+    date: "2026-03-01",
+    goal: "Running a self-hosted server means constantly context-switching to check if containers are up, debug crashes, and keep track of what's actually running. I wanted something that would handle routine diagnostics automatically — without ever making a system change I hadn't approved.",
+    results: "The system now monitors all running websites and Docker containers on a schedule, automatically diagnoses failures, and generates weekly service inventory reports. When a fix requires executing commands, the agent messages me on Discord with a summary of what it plans to do and waits for approval before acting — giving me the benefits of automation without losing control.",
+    role: "Solo Engineer",
+    timeline: "2 weeks",
   },
   {
     id: 3,
