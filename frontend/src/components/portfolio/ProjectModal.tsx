@@ -86,25 +86,25 @@ export default function ProjectModal({ project, onClose }: Props) {
             )}
 
             <div className="p-6 sm:p-8">
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4">
+              <h2 className="font-heading text-2xl sm:text-3xl font-bold text-foreground mb-4">
                 {project.title}
               </h2>
 
               {/* Meta */}
               <div className="flex flex-wrap gap-3 mb-6">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-body font-medium">
                   <Tag className="w-3 h-3" />
                   {project.category}
                 </span>
                 {project.role && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-body font-medium">
                     <Briefcase className="w-3 h-3" />
                     {project.role}
                     {project.teamSize ? ` · ${project.teamSize}-person team` : ""}
                   </span>
                 )}
                 {project.date && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-body font-medium">
                     <Calendar className="w-3 h-3" />
                     {formattedDate}
                     {project.timeline ? ` · ${project.timeline}` : ""}
@@ -129,16 +129,16 @@ export default function ProjectModal({ project, onClose }: Props) {
               {/* Goal */}
               {project.goal && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">The Goal</h3>
-                  <p className="text-muted-foreground leading-relaxed">{project.goal}</p>
+                  <h3 className="font-heading text-lg font-semibold text-foreground mb-2">The Goal</h3>
+                  <p className="text-muted-foreground font-body leading-relaxed">{project.goal}</p>
                 </div>
               )}
 
               {/* Results */}
               {project.results && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">Results</h3>
-                  <p className="text-muted-foreground leading-relaxed">{project.results}</p>
+                <div className="mb-8">
+                  <h3 className="font-heading text-lg font-semibold text-foreground mb-2">Results</h3>
+                  <p className="text-muted-foreground font-body leading-relaxed">{project.results}</p>
                 </div>
               )}
 
@@ -173,7 +173,7 @@ export default function ProjectModal({ project, onClose }: Props) {
               {/* Gallery */}
               {project.gallery && project.gallery.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-4">Gallery</h3>
+                  <h3 className="font-heading text-lg font-semibold text-foreground mb-4">Project Gallery</h3>
                   <div className="grid grid-cols-2 gap-3">
                     {project.gallery.map((img, i) => (
                       <div
