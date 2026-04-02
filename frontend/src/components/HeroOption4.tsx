@@ -46,11 +46,11 @@ const HeroOption4 = () => {
             </div>
 
             <p className="text-lg text-muted-foreground/80 mb-3 leading-relaxed animate-fade-in opacity-0" style={{ animationDelay: '0.8s' }}>
-              Information Systems Student at BYU's Marriott School of Business
+              Software Engineer focused on AI platforms, automation, and cloud-based systems.
             </p>
 
             <p className="text-base text-muted-foreground/70 mb-8 leading-relaxed animate-fade-in opacity-0" style={{ animationDelay: '1s' }}>
-              I build secure, scalable applications that automate workflows using AI and machine learning, eliminating manual work and improving efficiency.
+              I translate business and operational needs into production software — from modernizing legacy systems and internal tooling to AI platform infrastructure with CI/CD, observability, and LLM integrations.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8 animate-fade-in opacity-0" style={{ animationDelay: '1.2s' }}>
@@ -64,7 +64,7 @@ const HeroOption4 = () => {
 
             {/* Tech stack from Option 2 */}
             <div className="flex flex-wrap gap-2 animate-fade-in opacity-0" style={{ animationDelay: '1.4s' }}>
-              {['React', 'TypeScript', 'Python', 'Flask', 'Tailwind', 'Docker'].map((tech) => (
+              {['Python', 'TypeScript', 'AWS', 'Docker', 'React', 'GitHub Actions'].map((tech) => (
                 <span
                   key={tech}
                   className="px-3 py-1 text-xs font-mono bg-primary/5 border border-primary/10 rounded text-muted-foreground"
