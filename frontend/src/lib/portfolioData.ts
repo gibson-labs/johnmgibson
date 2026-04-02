@@ -1,6 +1,5 @@
 import { Project, Experience } from "@/types/project";
 
-// Filter options shown in FilterBar
 export const CATEGORIES = ["Full-Stack", "AI/ML", "Frontend", "Backend", "Data"];
 
 export const TECHNOLOGIES = [
@@ -9,11 +8,9 @@ export const TECHNOLOGIES = [
   "MySQL", "PostgreSQL", "Oracle", "Machine Learning",
 ];
 
-// Seed data — these get loaded into the DB on first run via /api/projects
-// After that, the DB is the source of truth.
-export const SEED_PROJECTS: Omit<Project, "id">[] = [
+export const PROJECTS: Project[] = [
   {
-    slug: "cineniche",
+    id: 1,
     title: "CineNiche",
     description: "A secure movie streaming platform with custom ML models that recommend movies based on user preferences.",
     thumbnail: undefined,
@@ -21,7 +18,6 @@ export const SEED_PROJECTS: Omit<Project, "id">[] = [
     category: "Full-Stack",
     technologies: ["React", "TypeScript", ".NET", "Azure", "MySQL"],
     date: "2024-04-01",
-    featured: true,
     goal: "Build a streaming platform with personalized movie recommendations using machine learning.",
     results: "Achieved 85% user satisfaction with recommendations. Platform handles 500+ concurrent users with 40% higher engagement than comparable platforms.",
     githubUrl: "https://github.com/johnmgibson3/INTEX2_cineniche",
@@ -30,7 +26,7 @@ export const SEED_PROJECTS: Omit<Project, "id">[] = [
     teamSize: 4,
   },
   {
-    slug: "turtle-shelter",
+    id: 2,
     title: "Turtle Shelter Project",
     description: "Charity management system for a sea turtle conservation org — volunteer scheduling, donation tracking, and automated email via AWS SES.",
     thumbnail: undefined,
@@ -38,7 +34,6 @@ export const SEED_PROJECTS: Omit<Project, "id">[] = [
     category: "Full-Stack",
     technologies: ["JavaScript", "AWS", "MySQL"],
     date: "2024-01-01",
-    featured: true,
     goal: "Replace spreadsheets and manual emails with a centralized web app for volunteers and donations.",
     results: "Reduced admin overhead 60%. Volunteer coordination dropped from 10 hrs/week to 2. Tracks $50K+ in donations annually.",
     githubUrl: "https://github.com/Team1-12/intex-2024",
@@ -48,7 +43,7 @@ export const SEED_PROJECTS: Omit<Project, "id">[] = [
     teamSize: 5,
   },
   {
-    slug: "mail-services",
+    id: 3,
     title: "Mail Services Financial System",
     description: "Enterprise financial management system for BYU's Print and Mail center — invoices, payments, budget tracking, and real-time reporting.",
     thumbnail: undefined,
@@ -56,7 +51,6 @@ export const SEED_PROJECTS: Omit<Project, "id">[] = [
     category: "Full-Stack",
     technologies: ["TypeScript", "Angular", "Python", "Flask", "Oracle"],
     date: "2023-12-01",
-    featured: false,
     goal: "Replace legacy software with a modern app that handles financial workflows and integrates with university systems.",
     results: "Transaction processing time reduced 70%. Data entry errors down 95%. Saves 20+ staff hours/month on reports.",
     role: "Backend Developer",

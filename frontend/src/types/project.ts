@@ -1,6 +1,5 @@
 export interface Project {
   id: number;
-  slug: string;
   title: string;
   description: string;
   thumbnail?: string;
@@ -8,7 +7,6 @@ export interface Project {
   category: string;
   technologies: string[];
   date: string; // ISO "2024-03-01"
-  featured: boolean;
   goal?: string;
   results?: string;
   githubUrl?: string;

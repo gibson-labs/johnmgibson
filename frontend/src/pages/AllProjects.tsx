@@ -1,10 +1,9 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { useSearchParams, Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { api } from "@/lib/api";
+import { PROJECTS } from "@/lib/portfolioData";
 import { Project } from "@/types/project";
-import { SEED_PROJECTS } from "@/lib/portfolioData";
 import FilterBar from "@/components/portfolio/FilterBar";
 import ProjectCard from "@/components/portfolio/ProjectCard";
 import ProjectModal from "@/components/portfolio/ProjectModal";
@@ -12,8 +11,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function AllProjects() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<{ categories: string[]; technologies: string[] }>({
     categories: [],
     technologies: [],
@@ -21,27 +18,14 @@ export default function AllProjects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    api.getProjects()
-      .then((data) => setProjects(data))
-      .catch(() =>
-        setProjects(SEED_PROJECTS.map((p, i) => ({ ...p, id: i + 1 })))
-      )
-      .finally(() => setLoading(false));
-  }, []);
-
-  // Sync filters from URL params
-  useEffect(() => {
-    const category = searchParams.get("category");
-    if (category) {
-      setFilters({ categories: [category], technologies: [] });
-    }
-  }, [searchParams]);
-
   const filtered = useMemo(() => {
-    let result = [...projects];
-    if (filters.categories.length > 0) {
-      result = result.filter((p) => filters.categories.includes(p.category));
+    const category = searchParams.get("category");
+    let result = [...PROJECTS];
+
+    const activeCategories = category ? [category] : filters.categories;
+
+    if (activeCategories.length > 0) {
+      result = result.filter((p) => activeCategories.includes(p.category));
     }
     if (filters.technologies.length > 0) {
       result = result.filter((p) =>
@@ -50,7 +34,7 @@ export default function AllProjects() {
     }
     result.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     return result;
-  }, [projects, filters]);
+  }, [filters, searchParams]);
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
@@ -98,27 +82,21 @@ export default function AllProjects() {
             <FilterBar filters={filters} setFilters={setFilters} />
           </motion.div>
 
-          {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-            </div>
-          ) : (
-            <LayoutGroup>
-              <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                <AnimatePresence mode="popLayout">
-                  {filtered.map((project) => (
-                    <ProjectCard
-                      key={project.id}
-                      project={project}
-                      onClick={setSelectedProject}
-                    />
-                  ))}
-                </AnimatePresence>
-              </motion.div>
-            </LayoutGroup>
-          )}
+          <LayoutGroup>
+            <motion.div layout className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <AnimatePresence mode="popLayout">
+                {filtered.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    onClick={setSelectedProject}
+                  />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </LayoutGroup>
 
-          {!loading && filtered.length === 0 && (
+          {filtered.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

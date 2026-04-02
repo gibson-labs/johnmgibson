@@ -1,26 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { api } from '@/lib/api';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { PROJECTS } from '@/lib/portfolioData';
 import { Project } from '@/types/project';
-import { SEED_PROJECTS } from '@/lib/portfolioData';
-import ProjectCard from '@/components/portfolio/ProjectCard';
 import ProjectModal from '@/components/portfolio/ProjectModal';
 
-// Fallback for when backend isn't reachable (local dev without Flask running)
-const FALLBACK: Project[] = SEED_PROJECTS
-  .filter((p) => p.featured)
-  .map((p, i) => ({ ...p, id: i + 1 }));
+const featured = PROJECTS.slice(0, 3);
 
 const Projects = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-
-  useEffect(() => {
-    api.getProjects(true)
-      .then(setProjects)
-      .catch(() => setProjects(FALLBACK));
-  }, []);
 
   return (
     <>
@@ -40,13 +28,43 @@ const Projects = () => {
             A selection of my recent work.
           </p>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {projects.map((project) => (
-              <ProjectCard
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featured.map((project, i) => (
+              <button
                 key={project.id}
-                project={project}
-                onClick={setSelectedProject}
-              />
+                onClick={() => setSelectedProject(project)}
+                className="group animate-fade-in-up opacity-0 text-left bg-card rounded-2xl overflow-hidden border border-border hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <div className="aspect-[4/3] overflow-hidden bg-muted">
+                  {project.thumbnail ? (
+                    <img
+                      src={project.thumbnail}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-primary/5">
+                      <span className="text-4xl font-bold text-primary/20">
+                        {project.title.charAt(0)}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div className="p-5">
+                  <span className="text-xs font-medium text-primary tracking-wide uppercase">
+                    {project.category}
+                  </span>
+                  <h3 className="font-heading text-lg font-semibold mt-1 group-hover:text-primary transition-colors flex items-center gap-1">
+                    {project.title}
+                    <ArrowUpRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                    {project.description}
+                  </p>
+                </div>
+              </button>
             ))}
           </div>
 
