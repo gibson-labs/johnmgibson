@@ -3,6 +3,11 @@ import CineNiche from "@/assets/images/CineNiche.jpeg";
 import TurtleShelter from "@/assets/images/TurtleShelter.png";
 import N8nServer from "@/assets/images/n8n_server.jpeg";
 import N8nDiscord from "@/assets/images/n8n_discord.jpeg";
+import Shipments3 from "@/assets/images/shipments3.png";
+import Shipments1 from "@/assets/images/shipments1.png";
+import Shipments2 from "@/assets/images/shipments2.png";
+import Shipments4 from "@/assets/images/shipments4.png";
+import Shipments5 from "@/assets/images/shipments5.png";
 
 export const CATEGORIES = ["Full-Stack", "AI/ML", "Frontend", "Backend", "Data"];
 
@@ -23,7 +28,7 @@ export const PROJECTS: Project[] = [
     technologies: ["React", "TypeScript", ".NET", "Azure ML", "MySQL"],
     date: "2024-04-01",
     goal: "Build a secure movie streaming platform with a custom ML recommendation engine that analyzes viewing patterns and preferences to deliver accurate movie suggestions.",
-    results: "Built and deployed a full-stack React, .NET, and MySQL platform with user authentication and recommendation capabilities. Implemented a custom Azure ML model trained on 50,000+ movies that uses collaborative filtering and content-based recommendations. The architecture is designed to handle concurrent streaming for 500+ users with minimal latency.",
+    results: "Built and deployed a full-stack React, .NET, and MySQL platform with user authentication and recommendation capabilities. Implemented a custom Azure ML model trained on 1,000 movies that uses collaborative filtering and content-based recommendations. The architecture is designed to handle concurrent streaming for 500+ users with minimal latency.",
     githubUrl: "https://github.com/johnmgibson3/INTEX2_cineniche",
     role: "Full-Stack Developer",
     timeline: "4 months",
@@ -48,7 +53,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 4,
-    title: "AI-Powered HomeLab Monitor",
+    title: "n8n-Powered AI HomeLab Monitor",
     description: "An autonomous monitoring system built with n8n that watches my self-hosted server, diagnoses issues, and routes fixes through a human-in-the-loop approval flow on Discord.",
     thumbnail: N8nServer,
     gallery: [N8nDiscord],
@@ -62,10 +67,10 @@ export const PROJECTS: Project[] = [
   },
   {
     id: 3,
-    title: "Mail Services Financial System",
+    title: "Shipments Financial Processing System",
     description: "A financial system that allows BYU's Print and Mail center to manage their finances transactions. It was built with TypeScript, Angular, Python Flask, and Oracle Database",
-    thumbnail: undefined,
-    gallery: [],
+    thumbnail: Shipments3,
+    gallery: [Shipments1, Shipments2, Shipments4, Shipments5],
     category: "Full-Stack",
     technologies: ["TypeScript", "Angular", "Python Flask", "Oracle Database"],
     date: "2023-12-01",
