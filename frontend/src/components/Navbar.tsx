@@ -57,7 +57,7 @@ const Navbar = () => {
             className="shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all"
             asChild
           >
-            <a href="/Gibson_John_Resume.pdf" target="_blank" rel="noopener noreferrer">
+            <a href="/John_Gibson_Resume.pdf" target="_blank" rel="noopener noreferrer">
               Resume
             </a>
           </Button>
@@ -89,7 +89,7 @@ const Navbar = () => {
             ))}
             <Button className="w-full shadow-lg shadow-primary/20" asChild>
               <a
-                href="/Gibson_John_Resume.pdf"
+                href="/John_Gibson_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMobileMenuOpen(false)}
