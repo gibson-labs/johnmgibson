@@ -118,7 +118,7 @@ export default function ProjectModal({ project, onClose }: Props) {
                   {project.technologies.map((t) => (
                     <span
                       key={t}
-                      className="px-2.5 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-muted-foreground text-xs font-mono"
+                      className="px-2.5 py-0.5 rounded-full bg-secondary border border-border text-muted-foreground text-xs font-mono"
                     >
                       {t}
                     </span>

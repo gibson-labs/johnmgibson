@@ -6,47 +6,46 @@
 
 @layer base {
   :root {
-    --background: 223 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 40 20% 97%;
+    --foreground: 220 20% 18%;
 
-    --card: 222 47% 13%;
-    --card-foreground: 210 40% 98%;
+    --card: 40 15% 99%;
+    --card-foreground: 220 20% 18%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 40 15% 99%;
+    --popover-foreground: 220 20% 18%;
 
-     /* Look into color palette og is 199, 369, 400, 400 */
-    --primary:393 89% 48%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 220 60% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 40 10% 93%;
+    --secondary-foreground: 220 15% 30%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 40 10% 93%;
+    --muted-foreground: 220 10% 50%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 40 10% 93%;
+    --accent-foreground: 220 20% 18%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --border: 40 10% 88%;
+    --input: 40 10% 88%;
+    --ring: 220 60% 45%;
 
     --radius: 0.5rem;
     --font-heading: 'Playfair Display', serif;
     --font-body: 'DM Sans', sans-serif;
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-background: 40 15% 99%;
+    --sidebar-foreground: 220 20% 18%;
+    --sidebar-primary: 220 60% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 40 10% 93%;
+    --sidebar-accent-foreground: 220 20% 18%;
+    --sidebar-border: 40 10% 88%;
+    --sidebar-ring: 220 60% 45%;
   }
 
   * {
@@ -65,7 +64,7 @@
 
 @layer components {
   .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl;
+    @apply bg-card border border-border rounded-xl shadow-sm;
   }
 
   .section-heading {
@@ -73,11 +72,11 @@
   }
 
   .section-heading::after {
-    @apply content-[''] absolute -bottom-2 left-0 h-1 w-1/2 bg-primary rounded-full;
+    @apply content-[''] absolute -bottom-2 left-0 h-0.5 w-12 bg-primary/60 rounded-full;
   }
 
   .project-card {
-    @apply border border-border bg-card rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-primary/20 hover:-translate-y-1;
+    @apply border border-border bg-card rounded-lg overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1;
   }
 
   .tech-pill {
@@ -99,18 +98,6 @@
     animation: fade-in 0.5s ease-out forwards;
   }
 
-  @keyframes bounce-subtle {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-
-  .animate-bounce-subtle {
-    animation: bounce-subtle 2s ease-in-out infinite;
-  }
 }
 
 /* Modern CSS Reset */
@@ -124,14 +111,14 @@
 
 /* Custom Properties */
 :root {
-  --primary-color: #00DC82;
-  --secondary-color: #00B368;
-  --text-color: #E1E1E1;
-  --background-color: #111827;
-  --dark-accent: #1F2937;
-  --light-accent: rgba(255, 255, 255, 0.05);
-  --border-color: rgba(255, 255, 255, 0.1);
-  --card-background: #1a2332;
+  --primary-color: #2E5BAA;
+  --secondary-color: #1E4080;
+  --text-color: #272F3D;
+  --background-color: #F8F6F3;
+  --dark-accent: #EEECEA;
+  --light-accent: rgba(45, 55, 72, 0.03);
+  --border-color: rgba(45, 55, 72, 0.1);
+  --card-background: #FDFCFB;
   --transition-speed: 0.3s;
 }
 
@@ -183,11 +170,6 @@ img {
   padding: 0 1rem;
 }
 
-.text-gradient {
-  background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
 
 /* Animations */
 @keyframes fadeIn {

@@ -36,15 +36,13 @@ const Skills = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16 animate-fade-in opacity-0" style={{ animationDelay: '0.1s' }}>
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
               <span className="text-sm font-medium text-primary">Technical Expertise</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Skills &
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60"> Technologies</span>
+              Skills & <span className="text-primary">Technologies</span>
             </h2>
-            <div className="h-1 w-20 bg-gradient-to-r from-primary to-transparent rounded-full mb-4" />
-            <p className="text-muted-foreground/80 text-lg max-w-2xl">
+            <p className="text-muted-foreground text-lg max-w-2xl">
               A comprehensive toolkit for building modern, scalable applications
             </p>
           </div>
@@ -53,28 +51,21 @@ const Skills = () => {
             {skillsData.map((category, index) => (
               <div
                 key={category.name}
-                className="group relative p-6 rounded-2xl bg-background/50 backdrop-blur border border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10 animate-fade-in opacity-0"
+                className="group p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all duration-300 hover:shadow-md animate-fade-in opacity-0"
                 style={{ animationDelay: `${0.2 + index * 0.1}s` }}
               >
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/70">
-                      {category.name}
+                <h3 className="text-xl font-bold mb-4 text-foreground">
+                  {category.name}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {category.skills.map(skill => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 text-sm bg-secondary hover:bg-muted border border-border rounded-lg text-foreground transition-colors"
+                    >
+                      {skill}
                     </span>
-                    <div className="h-px flex-1 bg-gradient-to-r from-primary/30 to-transparent" />
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map(skill => (
-                      <span
-                        key={skill}
-                        className="px-3 py-1.5 text-sm bg-primary/10 hover:bg-primary/20 border border-primary/20 rounded-lg text-foreground transition-colors"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -85,4 +76,4 @@ const Skills = () => {
   );
 };
 
-export default Skills; 
+export default Skills;

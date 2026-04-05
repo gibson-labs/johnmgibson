@@ -33,7 +33,7 @@ const Projects = () => {
               <button
                 key={project.id}
                 onClick={() => setSelectedProject(project)}
-                className="group animate-fade-in-up opacity-0 text-left bg-card rounded-2xl overflow-hidden border border-border hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
+                className="group animate-fade-in-up opacity-0 text-left bg-card rounded-2xl overflow-hidden border border-border hover:shadow-xl transition-all duration-300"
                 style={{ animationDelay: `${i * 0.1}s` }}
               >
                 <div className="aspect-[4/3] overflow-hidden bg-muted">
@@ -45,8 +45,8 @@ const Projects = () => {
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-primary/5">
-                      <span className="text-4xl font-bold text-primary/20">
+                    <div className="w-full h-full flex items-center justify-center bg-muted">
+                      <span className="text-4xl font-bold text-muted-foreground/30">
                         {project.title.charAt(0)}
                       </span>
                     </div>

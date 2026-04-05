@@ -37,13 +37,8 @@ export default function AllProjects() {
   }, [filters, searchParams]);
 
   return (
-    <div className="min-h-screen bg-background text-foreground relative">
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-background via-50% to-background" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent" />
-      </div>
-
-      <div className="relative z-10">
+    <div className="min-h-screen bg-background text-foreground">
+      <div>
         <Navbar />
 
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
@@ -63,10 +58,8 @@ export default function AllProjects() {
             transition={{ duration: 0.5 }}
             className="mb-10"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-3">
-              <span className="bg-gradient-to-r from-white via-white to-primary bg-clip-text text-transparent">
-                Projects
-              </span>
+            <h1 className="text-4xl md:text-5xl font-bold mb-3 text-foreground">
+              Projects
             </h1>
             <p className="text-muted-foreground text-lg">
               Everything I've built — full-stack apps, AI tools, and more.

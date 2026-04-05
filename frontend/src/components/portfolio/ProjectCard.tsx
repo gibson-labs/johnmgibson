@@ -18,7 +18,7 @@ export default function ProjectCard({ project, onClick }: Props) {
       className="group cursor-pointer"
       onClick={() => onClick(project)}
     >
-      <div className="bg-card rounded-2xl overflow-hidden border border-border hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+      <div className="bg-card rounded-2xl overflow-hidden border border-border hover:shadow-xl transition-all duration-300">
         <div className="aspect-[3/2] overflow-hidden bg-muted">
           {project.thumbnail ? (
             <img
@@ -27,8 +27,8 @@ export default function ProjectCard({ project, onClick }: Props) {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-primary/5">
-              <span className="text-4xl font-bold text-primary/20">
+            <div className="w-full h-full flex items-center justify-center bg-muted">
+              <span className="text-4xl font-bold text-muted-foreground/30">
                 {project.title.charAt(0)}
               </span>
             </div>
