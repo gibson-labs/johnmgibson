@@ -113,7 +113,7 @@ export default function PipelineDiagram({ node, line, text, muted, accent, font,
       {[...CLIENTS, GATEWAY, MODELS, ...TELEMETRY].map(renderBox)}
 
       <text x={85} y={232} textAnchor="middle" fill={muted} fontSize={10} letterSpacing="0.08em">
-        USED BY 800+ EMPLOYEES
+        USED BY 400+ EMPLOYEES
       </text>
       <text x={200} y={250} fill={muted} fontSize={10} letterSpacing="0.08em">
         TELEMETRY PIPELINE

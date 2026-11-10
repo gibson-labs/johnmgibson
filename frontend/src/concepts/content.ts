@@ -54,10 +54,10 @@ export const TIMELINE: TimelineEntry[] = [
     kind: "work",
     period: "Nov 2025 — Present",
     year: "2025",
-    role: "AI Solutions Engineer Intern",
+    role: "Cloud Engineer · Full-time",
     org: "MasterControl",
     location: "Cottonwood Heights, UT",
-    summary: "Platform engineering for the internal AI stack used by 800+ employees.",
+    summary: "Platform engineering for the internal AI stack used by 400+ employees.",
     bullets: [
       "Architected an OpenTelemetry pipeline on Lambda, Glue, and Athena that tracks LLM latency, token usage, and fallback behavior.",
       "Built TypeScript MCP servers that let Claude Code manage Open WebUI and LiteLLM — users, models, prompts, tools, and settings.",
@@ -70,7 +70,7 @@ export const TIMELINE: TimelineEntry[] = [
   {
     id: "byu",
     kind: "education",
-    period: "Graduated Dec 2025",
+    period: "Aug 2021 — Dec 2025",
     year: "2025",
     role: "B.S. Information Systems",
     org: "Brigham Young University",
@@ -139,10 +139,10 @@ export const PROJECTS: ConceptProject[] = [
     kind: "Professional",
     context: "MasterControl",
     year: "2025—26",
-    role: "AI Solutions Engineer",
+    role: "Cloud Engineer",
     summary: "One resilient front door for every model, with telemetry on every request.",
     problem:
-      "Internal AI tools used by 800+ employees needed reliable access to many models — and the team needed visibility into latency, token usage, and when fallbacks kicked in.",
+      "Internal AI tools used by 400+ employees needed reliable access to many models — and the team needed visibility into latency, token usage, and when fallbacks kicked in.",
     approach:
       "Configured LiteLLM as the enterprise gateway with 20+ models, fallback chains, and wildcard routing. Instrumented traffic with OpenTelemetry and built a Lambda → Glue → Athena pipeline to make it queryable. Added TypeScript MCP servers so Claude Code can administer Open WebUI and LiteLLM directly.",
     outcome:
@@ -260,7 +260,7 @@ export const WORK_PROJECTS: WorkProject[] = [
     kind: "Professional",
     context: "MasterControl",
     year: "2025—26",
-    role: "AI Solutions Engineer",
+    role: "Cloud Engineer",
     summary:
       "One OpenAI-compatible front door to ~40 models across Bedrock, OpenAI, and Gemini — with fallbacks, budgets, and a trace on every request.",
     problem:
@@ -290,19 +290,19 @@ export const WORK_PROJECTS: WorkProject[] = [
     kind: "Professional",
     context: "MasterControl",
     year: "2025—26",
-    role: "AI Solutions Engineer",
+    role: "Cloud Engineer",
     summary:
-      "The AWS platform behind a self-hosted Open WebUI deployment used by 800+ employees — SSO, document RAG, and upgrades nobody notices.",
+      "The AWS platform behind a self-hosted Open WebUI deployment used by 400+ employees — SSO, document RAG, and upgrades nobody notices.",
     problem:
       "Give the whole company one secure, self-hosted place to work with models and their own documents — with enterprise sign-in, high availability, and deploys that don't interrupt anyone.",
     approach:
       "Open WebUI on ECS Fargate, auto-scaling from 2 to 10 tasks behind CloudFront, WAF, and a load balancer. Multi-AZ Postgres holds app data, Redis keeps websockets in sync across instances, and S3 stores files and vector embeddings. OIDC single sign-on with SCIM provisioning; scheduled Lambdas clean up stale vectors and reconcile model access. Upgrades snapshot the database, pin capacity, roll out, then restore autoscaling.",
     outcome:
-      "A highly available platform for 800+ employees, defined in 12 CDK stacks across isolated dev and prod accounts and deployed through GitHub Actions with OIDC — no long-lived credentials anywhere.",
+      "A highly available platform for 400+ employees, defined in 12 CDK stacks across isolated dev and prod accounts and deployed through GitHub Actions with OIDC — no long-lived credentials anywhere.",
     stack: ["Open WebUI", "ECS Fargate", "CloudFront", "WAF", "Postgres", "Redis", "S3 Vectors", "OIDC + SCIM", "MCP", "AWS CDK"],
     diagramKey: "chat",
     highlights: [
-      { value: "800+", label: "employees" },
+      { value: "400+", label: "employees" },
       { value: "12", label: "CDK stacks" },
       { value: "2–10", label: "auto-scaling tasks" },
       { value: "0", label: "long-lived credentials" },
@@ -324,7 +324,7 @@ export const isWorkProject = (p: ConceptProject): p is WorkProject => "diagramKe
 /** Career spans for timeline-as-trace layouts. `end: null` means ongoing. */
 export const TIMELINE_SPANS: Record<string, { start: string; end: string | null }> = {
   mastercontrol: { start: "2025-11-01", end: null },
-  byu: { start: "2025-12-15", end: "2025-12-15" },
+  byu: { start: "2021-08-01", end: "2025-12-15" },
   "print-mail": { start: "2024-06-01", end: "2025-11-01" },
   oit: { start: "2023-06-01", end: "2024-04-30" },
 };

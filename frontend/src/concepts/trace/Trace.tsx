@@ -49,10 +49,10 @@ const SECTIONS = [
   { id: "contact", label: "contact", color: "#FB7185" },
 ];
 
-// Waterfall axis: Jan 2023 → Jan 2027, ticks on each new year.
-const AXIS_START = Date.parse("2023-01-01");
+// Waterfall axis: Jan 2021 → Jan 2027, ticks on each new year.
+const AXIS_START = Date.parse("2021-01-01");
 const AXIS_END = Date.parse("2027-01-01");
-const TICKS = [2023, 2024, 2025, 2026, 2027];
+const TICKS = [2021, 2022, 2023, 2024, 2025, 2026, 2027];
 const pct = (t: number) => ((t - AXIS_START) / (AXIS_END - AXIS_START)) * 100;
 
 function months(start: number, end: number) {
@@ -249,7 +249,7 @@ function Waterfall() {
   const now = Date.now();
   const rows = [...TIMELINE].sort((a, b) => Date.parse(TIMELINE_SPANS[a.id].start) - Date.parse(TIMELINE_SPANS[b.id].start));
   const [open, setOpen] = useState<string | null>("mastercontrol");
-  const rootStart = Date.parse(TIMELINE_SPANS.oit.start);
+  const rootStart = Math.min(...Object.values(TIMELINE_SPANS).map((span) => Date.parse(span.start)));
 
   const Track = ({ children }: { children?: ReactNode }) => (
     <div className="relative h-7">
@@ -309,7 +309,7 @@ function Waterfall() {
         const end = s.end ? Date.parse(s.end) : now;
         const color = SPAN_COLOR[r.id];
         const isOpen = open === r.id;
-        const point = r.kind === "education";
+        const point = start === end;
         return (
           <Fragment key={r.id}>
             <button

@@ -1,21 +1,27 @@
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
-import { ArrowUpRight, Bike, Check, Copy, FileText, Github, GraduationCap, Linkedin, Server, Waves, X } from "lucide-react";
-import { PROFILE, PROJECTS, STACK, TIMELINE, type ConceptProject } from "../content";
+import { useLocation } from "react-router-dom";
+import { ArrowUpRight, Bike, Check, Copy, FileText, Github, GraduationCap, Linkedin, Moon, Server, Sun, Waves, X } from "lucide-react";
+import { PROFILE, PROJECTS, WORK_PROJECTS, isWorkProject, STACK, TIMELINE, type ConceptProject } from "../content";
 import { useConceptPage } from "../shared/useConceptPage";
 import Reveal from "../shared/Reveal";
 import PipelineDiagram from "../shared/PipelineDiagram";
+import ArchDiagram from "../shared/ArchDiagram";
 import ConceptSwitcher from "../shared/ConceptSwitcher";
+import CareerOverview from "./CareerOverview";
 
-// Concept C — "Bento": warm-gray canvas, soft tiles, ink + one cobalt accent.
-const C = {
-  canvas: "#E9E7E2",
-  tile: "#F8F7F4",
-  ink: "#111112",
-  muted: "#6B6A66",
-  line: "rgba(17,17,18,0.08)",
-  accent: "#2337FF",
-  accentSoft: "#E2E5FF",
+// One Bento layout, with distinct light and night palettes.
+const LIGHT = {
+  canvas: "#BFC5CB", tile: "rgba(244,247,250,0.78)", ink: "#202321", muted: "#626760",
+  line: "rgba(32,35,33,0.12)", accent: "#354FE0", accentSoft: "#DFE5FC",
+  hero: "#202321", onAccent: "#FFFFFF", onInk: "#FFFFFF",
+  header: "rgba(218,225,232,0.72)", year: "rgba(32,35,33,0.18)",
+};
+const DARK = {
+  canvas: "#121416", tile: "rgba(38,41,45,0.78)", ink: "#F3F1EC", muted: "#B5B7BB",
+  line: "rgba(243,241,236,0.16)", accent: "#FF8159", accentSoft: "#382A25",
+  hero: "rgba(29,32,35,0.84)", onAccent: "#201710", onInk: "#191B1E",
+  header: "rgba(38,41,45,0.70)", year: "rgba(243,241,236,0.22)",
 };
 const FONTS = "family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500";
 const mono: CSSProperties = { fontFamily: "'DM Mono', monospace" };
@@ -69,7 +75,7 @@ function Tile({ i, className = "", children }: { i: number; className?: string; 
       initial={{ opacity: 0, y: 18, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.7, delay: 0.08 * i, ease: EASE }}
-      className={`relative overflow-hidden rounded-[28px] ring-1 ring-[var(--line)] ${className}`}
+      className={`bento-surface relative overflow-hidden rounded-[28px] ring-1 ring-[var(--line)] ${className}`}
     >
       {children}
     </motion.div>
@@ -86,7 +92,7 @@ function Label({ children, className = "" }: { children: ReactNode; className?: 
 
 function BrowserFrame({ src, slug }: { src: string; slug: string }) {
   return (
-    <div className="overflow-hidden rounded-[14px] bg-white shadow-[0_10px_30px_-12px_rgba(17,17,18,0.3)] ring-1 ring-[var(--line)]">
+    <div className="overflow-hidden rounded-[14px] bg-[var(--tile)] shadow-[0_10px_30px_-12px_rgba(17,17,18,0.3)] ring-1 ring-[var(--line)]">
       <div className="flex h-7 items-center gap-1.5 border-b border-[rgba(17,17,18,0.06)] px-3">
         {[0, 1, 2].map((d) => (
           <span key={d} className="h-2 w-2 rounded-full bg-[#DEDCD6]" />
@@ -103,16 +109,21 @@ function BrowserFrame({ src, slug }: { src: string; slug: string }) {
 function Diagram() {
   return (
     <PipelineDiagram
-      node="#FFFFFF"
-      line="rgba(35,55,255,0.22)"
-      text={C.ink}
-      muted="#5D6290"
-      accent={C.accent}
+      node="var(--tile)"
+      line="var(--line)"
+      text="var(--ink)"
+      muted="var(--muted)"
+      accent="var(--accent)"
       font="'DM Mono', monospace"
       radius={10}
       className="w-full"
     />
   );
+}
+
+function WorkDiagram({ p }: { p: ConceptProject }) {
+  if (!isWorkProject(p)) return null;
+  return <ArchDiagram diagram={p.diagramKey} node="var(--tile)" line="var(--line)" text="var(--ink)" muted="var(--muted)" accent="var(--accent)" font="'DM Mono', monospace" radius={8} className="w-full" />;
 }
 
 function Hero() {
@@ -123,10 +134,10 @@ function Hero() {
 
   return (
     <section className="grid gap-3 md:grid-cols-4">
-      <Tile i={0} className="bg-[var(--ink)] p-7 text-white md:col-span-2 md:row-span-2 md:p-9">
+      <Tile i={0} className="bento-hero bg-[var(--hero)] p-7 text-white md:col-span-2 md:row-span-2 md:p-9">
         <div className="flex h-full min-h-[400px] flex-col justify-between gap-10">
           <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7C8BFF]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
             <Label className="text-white/70">AI platform infrastructure</Label>
           </span>
           <div>
@@ -138,7 +149,7 @@ function Hero() {
             <p className="mt-6 max-w-md text-[19px] leading-snug text-white/70">{PROFILE.positioning}</p>
           </div>
           <div className="flex flex-wrap gap-2.5">
-            <CopyEmail className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[15px] font-medium text-[var(--ink)] transition hover:bg-[#E2E5FF]" />
+            <CopyEmail className="inline-flex items-center gap-2 rounded-full bg-[var(--tile)] px-5 py-2.5 text-[15px] font-medium text-[var(--ink)] transition hover:bg-[var(--accentSoft)]" />
             <a
               href={PROFILE.resume}
               target="_blank"
@@ -153,7 +164,7 @@ function Hero() {
 
       <Tile i={1} className="min-h-[380px] bg-[#D9D6CF] md:col-span-1 md:row-span-2">
         <img src={PROFILE.portrait} alt="John Gibson" className="absolute inset-0 h-full w-full object-cover" />
-        <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-2xl bg-white/75 px-3.5 py-2.5 backdrop-blur-md">
+        <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-2xl bg-[var(--header)] px-3.5 py-2.5 backdrop-blur-md">
           <span className="text-[14px] font-medium">{PROFILE.location}</span>
           <span style={mono} className="text-[12px] text-[var(--muted)]">
             {time}
@@ -161,27 +172,21 @@ function Hero() {
         </div>
       </Tile>
 
-      <Tile i={2} className="bg-[var(--accent)] p-6 text-white md:col-span-1">
+      <Tile i={2} className="bg-[var(--accent)] p-6 text-[var(--onAccent)] md:col-span-1">
         <div className="flex h-full min-h-[190px] flex-col justify-between gap-6">
-          <Label className="text-white/70">Now</Label>
+          <Label>Now</Label>
           <p className="text-[19px] font-medium leading-snug tracking-[-0.01em]">
-            Platform engineering for the internal AI tools 800+ MasterControl employees use.
+            Platform engineering for internal AI tools used by 400+ employees daily.
           </p>
-          <Label className="text-white/60">Since Nov 2025</Label>
+          <Label>Since Nov 2025</Label>
         </div>
       </Tile>
 
       <Tile i={3} className="bg-[var(--tile)] p-6 md:col-span-1">
-        <div className="grid h-full min-h-[190px] grid-rows-2 divide-y divide-[rgba(17,17,18,0.08)]">
-          {[
-            ["20+", "models behind one gateway"],
-            ["15+", "AWS CDK stacks shipped"],
-          ].map(([n, l]) => (
-            <div key={n} className="flex flex-col justify-center py-2">
-              <span className="text-[2.6rem] font-semibold leading-none tracking-[-0.04em]">{n}</span>
-              <span className="mt-1 text-[14px] text-[var(--muted)]">{l}</span>
-            </div>
-          ))}
+        <div className="flex h-full min-h-[190px] flex-col justify-between gap-5">
+          <Label className="text-[var(--muted)]">What I build</Label>
+          <p className="text-[21px] font-medium leading-snug tracking-[-0.02em]">Reliable infrastructure for useful AI.</p>
+          <p className="text-[14px] text-[var(--muted)]">Cloud · AI platforms · Automation</p>
         </div>
       </Tile>
 
@@ -235,7 +240,7 @@ function Hero() {
             href={href}
             target={href.startsWith("mailto") ? undefined : "_blank"}
             rel="noopener noreferrer"
-            className="group flex min-h-[86px] flex-col justify-between rounded-[22px] bg-[var(--canvas)] p-3.5 transition-colors hover:bg-[var(--ink)] hover:text-white"
+            className="group flex min-h-[86px] flex-col justify-between rounded-[22px] bg-[var(--canvas)] p-3.5 transition-colors hover:bg-[var(--ink)] hover:text-[var(--onInk)]"
           >
             <I className="h-4 w-4" />
             <span className="text-[14px] font-medium">{label}</span>
@@ -262,13 +267,24 @@ function SectionHead({ title, aside, id }: { title: string; aside: string; id: s
 function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
   return (
     <div className="grid gap-3 md:grid-cols-6">
-      {PROJECTS.map((p, i) => {
+      {WORK_PROJECTS.map((p, i) => (
+        <Reveal key={p.slug} delay={i * 0.08} className="md:col-span-3">
+          <button onClick={() => onOpen(p)} className="bento-surface group flex h-full w-full flex-col rounded-[28px] bg-[var(--tile)] p-6 text-left ring-1 ring-[var(--line)] transition hover:-translate-y-1 md:p-8">
+            <Label className="text-[var(--accent)]">{p.kind} · {p.context}</Label>
+            <h3 className="mt-4 text-[1.9rem] font-semibold leading-tight">{p.title}</h3>
+            <p className="mt-3 text-[15.5px] leading-relaxed text-[var(--muted)]">{p.summary}</p>
+            <div className="mt-6 w-full rounded-[16px] bg-[var(--canvas)] p-3 ring-1 ring-[var(--line)]"><WorkDiagram p={p} /></div>
+            <div className="mt-6 grid w-full grid-cols-2 gap-4 sm:grid-cols-4">{p.highlights.map((h) => <div key={h.label}><div className="text-[1.5rem] font-semibold">{h.value}</div><div className="text-[12px] text-[var(--muted)]">{h.label}</div></div>)}</div>
+          </button>
+        </Reveal>
+      ))}
+      {PROJECTS.filter((p) => p.slug !== "ai-gateway").map((p, i) => {
         const featured = p.diagram;
         return (
           <Reveal key={p.slug} delay={(i % 3) * 0.06} className={SPANS[p.slug]}>
             <button
               onClick={() => onOpen(p)}
-              className={`group relative flex h-full w-full overflow-hidden rounded-[28px] bg-[var(--tile)] p-6 text-left ring-1 ring-[var(--line)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(17,17,18,0.35)] md:p-8 ${
+              className={`bento-surface group relative flex h-full w-full overflow-hidden rounded-[28px] bg-[var(--tile)] p-6 text-left ring-1 ring-[var(--line)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(17,17,18,0.35)] md:p-8 ${
                 featured ? "flex-col gap-8 md:grid md:grid-cols-[1fr_1.4fr] md:items-center" : "flex-col"
               }`}
             >
@@ -277,7 +293,7 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
                   <span
                     style={mono}
                     className={`rounded-full px-2.5 py-1 text-[11px] uppercase tracking-[0.1em] ${
-                      featured ? "bg-[var(--accent)] text-white" : "bg-[var(--canvas)] text-[var(--muted)]"
+                      featured ? "bg-[var(--accent)] text-[var(--onAccent)]" : "bg-[var(--canvas)] text-[var(--muted)]"
                     }`}
                   >
                     {p.kind}
@@ -327,14 +343,14 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
 function Path() {
   return (
     <ol className="relative mx-auto max-w-5xl">
-      <span className="absolute bottom-0 left-5 top-2 w-[2px] -translate-x-1/2 bg-gradient-to-b from-[#2337FF] via-[rgba(17,17,18,0.15)] to-transparent md:left-1/2" />
+      <span className="absolute bottom-0 left-5 top-2 w-[2px] -translate-x-1/2 bg-gradient-to-b from-[var(--accent)] via-[var(--line)] to-transparent md:left-1/2" />
       {TIMELINE.map((r, i) => {
         const left = i % 2 === 0;
         const isEdu = r.kind === "education";
         return (
           <li key={r.id} className="relative grid grid-cols-1 pb-6 pl-12 md:grid-cols-2 md:gap-16 md:pl-0">
             <span className="absolute left-5 top-8 grid -translate-x-1/2 place-items-center md:left-1/2">
-              {r.current && <span className="absolute h-4 w-4 animate-ping rounded-full bg-[#2337FF] opacity-40" />}
+              {r.current && <span className="absolute h-4 w-4 animate-ping rounded-full bg-[var(--accent)] opacity-40" />}
               <span
                 className={`relative h-4 w-4 rounded-full border-[3px] border-[var(--canvas)] ${
                   r.current ? "bg-[var(--accent)]" : isEdu ? "bg-[var(--muted)]" : "bg-[var(--ink)]"
@@ -343,11 +359,11 @@ function Path() {
             </span>
 
             <Reveal className={left ? "md:col-start-1 md:row-start-1" : "md:col-start-2 md:row-start-1"} y={24}>
-              <article className="rounded-[24px] bg-[var(--tile)] p-6 ring-1 ring-[var(--line)] md:p-7">
+              <article className="bento-surface rounded-[24px] bg-[var(--tile)] p-6 ring-1 ring-[var(--line)] md:p-7">
                 <div className="flex items-center gap-3">
                   <span
                     className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl text-[12px] font-semibold ${
-                      r.current ? "bg-[var(--accent)] text-white" : "bg-[var(--ink)] text-white"
+                      r.current ? "bg-[var(--accent)] text-[var(--onAccent)]" : "bg-[var(--ink)] text-[var(--onInk)]"
                     }`}
                   >
                     {isEdu ? <GraduationCap className="h-4 w-4" /> : ORG_BADGE[r.id]}
@@ -396,7 +412,7 @@ function Path() {
               }`}
             >
               <Reveal>
-                <span className="block text-[5rem] font-semibold leading-none tracking-[-0.06em] text-[rgba(17,17,18,0.1)]">{r.year}</span>
+                <span className="block text-[5rem] font-semibold leading-none tracking-[-0.06em] text-[var(--year)]">{r.year}</span>
                 <span style={mono} className="mt-2 block text-[12px] uppercase tracking-[0.12em] text-[var(--muted)]">
                   {r.period}
                 </span>
@@ -439,11 +455,11 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 24, opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
-            className="relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[28px] bg-[var(--tile)] p-6 md:p-10"
+            className="bento-surface relative max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[28px] bg-[var(--tile)] p-6 md:p-10"
           >
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--canvas)] hover:bg-[var(--ink)] hover:text-white"
+              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--canvas)] hover:bg-[var(--ink)] hover:text-[var(--onInk)]"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
@@ -455,7 +471,9 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
             <p className="mt-3 text-[17px] text-[var(--muted)]">{p.summary}</p>
 
             <div className="mt-8">
-              {p.diagram ? (
+              {isWorkProject(p) ? (
+                <div className="rounded-[20px] bg-[var(--canvas)] p-4"><WorkDiagram p={p} /></div>
+              ) : p.diagram ? (
                 <div className="rounded-[20px] bg-[var(--accentSoft)] p-4">
                   <Diagram />
                 </div>
@@ -484,6 +502,8 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
               ))}
             </div>
 
+            {isWorkProject(p) && <div className="mt-8"><Label className="text-[var(--accent)]">Contributions</Label><ul className="mt-3 list-disc space-y-2 pl-5 text-[15px]">{p.contributions.map((item) => <li key={item}>{item}</li>)}</ul></div>}
+
             <div className="mt-8 flex flex-wrap gap-1.5">
               {p.stack.map((s) => (
                 <span key={s} style={mono} className="rounded-full bg-[var(--canvas)] px-2.5 py-1 text-[11px]">
@@ -508,7 +528,7 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
                     href={l.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--ink)] px-4 py-2 text-[14px] font-medium text-white hover:bg-[var(--accent)]"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[var(--ink)] px-4 py-2 text-[14px] font-medium text-[var(--onInk)] hover:bg-[var(--accent)] hover:text-[var(--onAccent)]"
                   >
                     {l.label} <ArrowUpRight className="h-4 w-4" />
                   </a>
@@ -523,11 +543,30 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
 }
 
 export default function Bento() {
-  useConceptPage({ title: "John Gibson — Concept C · Bento", fonts: FONTS, background: C.canvas });
+  const isConcept = useLocation().pathname.startsWith("/concepts");
+  const [dark, setDark] = useState(() => {
+    try { return localStorage.getItem("bento-theme") === "dark"; } catch { return false; }
+  });
+  const C = dark ? DARK : LIGHT;
+  useConceptPage({ title: isConcept ? "John Gibson — Concept C · Bento" : "John Gibson — Cloud Engineer", fonts: FONTS, background: LIGHT.canvas });
+  useEffect(() => {
+    document.body.style.backgroundColor = C.canvas;
+    try { localStorage.setItem("bento-theme", dark ? "dark" : "light"); } catch { /* Storage may be unavailable. */ }
+  }, [dark, C.canvas]);
+  const [pathView, setPathView] = useState<"overview" | "full">("overview");
   const [selected, setSelected] = useState<ConceptProject | null>(null);
   const close = useCallback(() => setSelected(null), []);
 
   const vars = {
+    "--careerGold": dark ? "#E9B754" : "#9A650D",
+    "--careerBlue": dark ? "#7BAAFF" : "#3B65C2",
+    "--careerGreen": dark ? "#72CAB0" : "#297A62",
+    "--hero": C.hero,
+    "--onAccent": C.onAccent,
+    "--onInk": C.onInk,
+    "--header": C.header,
+    "--year": C.year,
+    colorScheme: dark ? "dark" : "light",
     "--canvas": C.canvas,
     "--tile": C.tile,
     "--ink": C.ink,
@@ -543,20 +582,48 @@ export default function Bento() {
   return (
     <MotionConfig reducedMotion="user">
       <style>{`
+        [data-bento-theme="light"] {
+          background-image:
+            radial-gradient(ellipse at 8% 8%, rgba(123,148,179,0.30), transparent 52%),
+            radial-gradient(ellipse at 90% 28%, rgba(238,244,252,0.52), transparent 48%),
+            linear-gradient(125deg, rgba(255,255,255,0.22), transparent 45%, rgba(102,120,145,0.14));
+          background-attachment: fixed;
+        }
+        [data-bento-theme="light"] .bento-surface {
+          background-image: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.03) 65%);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), inset 0 1px 0 rgba(255,255,255,0.65), 0 14px 32px -24px rgba(42,58,78,0.42);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+        }
+        [data-bento-theme="light"] .bento-hero {
+          background-image: linear-gradient(135deg, rgba(255,255,255,0.035), transparent 65%);
+        }
+        [data-bento-theme="dark"] {
+          background-image: radial-gradient(ellipse at 85% 0%, rgba(255,129,89,0.07), transparent 650px);
+        }
+        [data-bento-theme="dark"] .bento-surface {
+          background-image: linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0) 55%);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), inset 0 1px 0 rgba(255,255,255,0.10), 0 12px 32px -22px rgba(0,0,0,0.6);
+          backdrop-filter: blur(18px);
+          -webkit-backdrop-filter: blur(18px);
+        }
+        [data-bento-theme="dark"] .bento-hero {
+          background-image: radial-gradient(ellipse at top right, rgba(255,129,89,0.09), transparent 65%), linear-gradient(135deg, rgba(255,255,255,0.04), transparent 55%);
+        }
         @keyframes bento-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .bento-marquee { animation: bento-marquee 40s linear infinite; }
         .bento-marquee-rev { animation-direction: reverse; }
         @media (prefers-reduced-motion: reduce) { .bento-marquee { animation: none; } }
       `}</style>
-      <div style={vars} className="min-h-screen selection:bg-[#2337FF] selection:text-white">
+      <div style={vars} data-bento-theme={dark ? "dark" : "light"} className="min-h-screen selection:bg-[var(--accent)] selection:text-white">
         <header className="sticky top-3 z-40 px-3">
           <div
             className="mx-auto flex max-w-[1240px] items-center justify-between rounded-full py-2 pl-2 pr-2 ring-1 ring-[var(--line)] backdrop-blur-md"
-            style={{ backgroundColor: "rgba(248,247,244,0.78)" }}
+            style={{ backgroundColor: C.header }}
           >
             <a href="#top" className="flex items-center gap-2.5">
-              <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--ink)] text-[12px] font-semibold text-white">JG</span>
-              <span className="text-[16px] font-semibold tracking-[-0.02em]">John Gibson</span>
+              <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--ink)] text-[12px] font-semibold text-[var(--onInk)]">JG</span>
+              <span className="hidden text-[16px] font-semibold tracking-[-0.02em] sm:inline">John Gibson</span>
             </a>
             <nav className="flex items-center gap-1 text-[15px]">
               {[
@@ -572,10 +639,25 @@ export default function Bento() {
                 href={PROFILE.resume}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-1 inline-flex items-center gap-1.5 rounded-full bg-[var(--ink)] px-4 py-2 font-medium text-white transition-colors hover:bg-[var(--accent)]"
+                className="ml-1 inline-flex items-center gap-1.5 rounded-full bg-[var(--ink)] px-4 py-2 font-medium text-[var(--onInk)] transition-colors hover:bg-[var(--accent)] hover:text-[var(--onAccent)]"
               >
                 Résumé <ArrowUpRight className="h-4 w-4" />
               </a>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={dark}
+                aria-label="Dark mode"
+                onClick={() => setDark((value) => !value)}
+                className="ml-2 inline-flex min-h-10 items-center gap-1 rounded-full bg-[var(--canvas)] p-1 ring-1 ring-[var(--line)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+              >
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[12px] font-medium ${!dark ? "bg-[var(--tile)] text-[var(--ink)] shadow-sm" : "text-[var(--muted)]"}`}>
+                  <Sun className="h-3.5 w-3.5" aria-hidden="true" /> Light
+                </span>
+                <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[12px] font-medium ${dark ? "bg-[var(--accent)] text-[var(--onAccent)] shadow-sm" : "text-[var(--muted)]"}`}>
+                  <Moon className="h-3.5 w-3.5" aria-hidden="true" /> Dark
+                </span>
+              </button>
             </nav>
           </div>
         </header>
@@ -583,24 +665,33 @@ export default function Bento() {
         <main id="top" className="mx-auto max-w-[1240px] px-3 pb-10 pt-6 md:px-3">
           <Hero />
 
-          <SectionHead id="work" title="Selected work" aside={`(${String(PROJECTS.length).padStart(2, "0")})`} />
+          <SectionHead id="work" title="Selected work" aside={`(${String(WORK_PROJECTS.length + PROJECTS.length - 1).padStart(2, "0")})`} />
           <Work onOpen={setSelected} />
 
-          <SectionHead id="path" title="The path so far" aside="2023 — now" />
-          <Path />
+          <SectionHead id="path" title="The path so far" aside="2021 — now" />
+          <div className="mb-6 flex justify-start sm:justify-end" role="group" aria-label="Career timeline view">
+            <div className="inline-flex gap-1 rounded-full bg-[var(--tile)] p-1 ring-1 ring-[var(--line)]">
+              {([["overview", "Overview"], ["full", "Full timeline"]] as const).map(([value, label]) => (
+                <button key={value} type="button" aria-pressed={pathView === value} aria-controls="career-view" onClick={() => setPathView(value)}
+                  className={`rounded-full px-5 py-2.5 text-[14px] font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${pathView === value ? "bg-[var(--accent)] text-[var(--onAccent)]" : "text-[var(--muted)] hover:text-[var(--ink)]"}`}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div id="career-view">{pathView === "overview" ? <CareerOverview /> : <Path />}</div>
 
           <Reveal className="mt-24 md:mt-32">
-            <section id="contact" className="scroll-mt-28 rounded-[32px] bg-[var(--ink)] p-8 text-white md:p-14">
+            <section id="contact" className="bento-surface bento-hero scroll-mt-28 rounded-[32px] bg-[var(--hero)] p-8 text-white md:p-14">
               <Label className="text-white/50">Contact</Label>
               <h2 className="mt-6 text-[clamp(2.6rem,6.5vw,5.6rem)] font-semibold leading-[0.95] tracking-[-0.045em]">
-                Got an AI platform problem?
-                <br />
-                <span className="text-white/35">Let&apos;s talk.</span>
+                Let&apos;s build something useful.
               </h2>
+              <p className="mt-6 max-w-2xl text-[19px] leading-relaxed text-white/70">Have a project, opportunity, or idea? I&apos;d love to hear about it.</p>
               <div className="mt-10 flex flex-wrap gap-2.5">
                 <CopyEmail
                   label={PROFILE.email}
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[16px] font-medium text-[var(--ink)] transition hover:bg-[#E2E5FF]"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--tile)] px-5 py-3 text-[16px] font-medium text-[var(--ink)] transition hover:bg-[var(--accentSoft)]"
                 />
                 {[
                   ["LinkedIn", PROFILE.linkedin],
@@ -627,7 +718,7 @@ export default function Bento() {
         </main>
 
         <ProjectSheet p={selected} onClose={close} />
-        <ConceptSwitcher />
+        {isConcept && <ConceptSwitcher />}
       </div>
     </MotionConfig>
   );

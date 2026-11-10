@@ -68,7 +68,7 @@ const SPECS: Record<DiagramKey, DSpec> = {
     aria: "Simplified AI chat platform architecture: users sign in with OIDC SSO and reach Open WebUI on ECS through CloudFront, WAF, and a load balancer. Open WebUI uses Postgres, Redis, S3 for files and vectors, Tika with OCR for documents, and calls the LLM gateway. Automation includes MCP servers, vector cleanup, and access sync.",
     boxes: [
       { x: 16, y: 30, w: 104, h: 34, label: "OIDC SSO", ghost: true },
-      { x: 16, y: 92, w: 104, h: 36, label: "800+ users" },
+      { x: 16, y: 92, w: 104, h: 36, label: "400+ users" },
       { x: 146, y: 92, w: 104, h: 36, label: "CloudFront" },
       { x: 270, y: 92, w: 104, h: 36, label: "WAF · ALB" },
       { x: 400, y: 78, w: 150, h: 64, label: "Open WebUI", sub: "ecs · 2–10 tasks", highlight: true },

@@ -200,7 +200,7 @@ function Hero() {
         <div className="flex h-full min-h-[200px] flex-col justify-between gap-6">
           <Label className="text-[var(--onAccent)] opacity-70">Now</Label>
           <p className="text-[19px] font-semibold leading-snug tracking-[-0.01em]">
-            Working on the AI gateway and chat platform 800+ MasterControl employees use.
+            Working on the AI gateway and chat platform 400+ MasterControl employees use.
           </p>
           <Label className="text-[var(--onAccent)] opacity-60">Since Nov 2025</Label>
         </div>
@@ -254,7 +254,7 @@ function Hero() {
 
       <Tile i={5} className="grid grid-cols-2 gap-px bg-[var(--line)] md:col-span-4 md:grid-cols-4">
         {[
-          ["800+", "employees on the platforms"],
+          ["400+", "employees on the platforms"],
           ["20+", "models I added to the gateway"],
           ["15+", "AWS CDK stacks shipped"],
           ["$70K+", "yearly labor saved at BYU"],
