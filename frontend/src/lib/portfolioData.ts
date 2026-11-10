@@ -85,12 +85,12 @@ export const PROJECTS: Project[] = [
 export const EXPERIENCES: Experience[] = [
   {
     id: 1,
-    role: "AI Solutions Engineer Intern",
+    role: "Cloud Engineer · Full-time",
     company: "MasterControl",
     filterCompany: "MasterControl",
     period: "Nov 2025 – Present",
     description:
-      "Architected an end-to-end OpenTelemetry pipeline on AWS (Lambda, Glue, Athena) to track LLM latency and token usage across internal AI platforms serving 800+ employees. Built TypeScript MCP servers enabling Claude Code and other clients to manage Open WebUI and LiteLLM resources, and engineered 15+ AWS CDK stacks with automated CI/CD via GitHub Actions.",
+      "Architected an end-to-end OpenTelemetry pipeline on AWS (Lambda, Glue, Athena) to track LLM latency and token usage across internal AI platforms serving 400+ employees. Built TypeScript MCP servers enabling Claude Code and other clients to manage Open WebUI and LiteLLM resources, and engineered 15+ AWS CDK stacks with automated CI/CD via GitHub Actions.",
   },
   {
     id: 2,
