@@ -12,16 +12,16 @@ import CareerOverview from "./CareerOverview";
 
 // One Bento layout, with distinct light and night palettes.
 const LIGHT = {
-  canvas: "#BFC5CB", tile: "rgba(244,247,250,0.78)", ink: "#202321", muted: "#626760",
-  line: "rgba(32,35,33,0.12)", accent: "#354FE0", accentSoft: "#DFE5FC",
-  hero: "#202321", onAccent: "#FFFFFF", onInk: "#FFFFFF",
-  header: "rgba(218,225,232,0.72)", year: "rgba(32,35,33,0.18)",
+  project: "#E9EAF5", projectHover: "#E1E3F1", diagramAccent: "#9DBBFF", diagramLine: "#8A9AAF", diagramText: "#25364E", diagramMuted: "#C0CAD8", diagramNodeMuted: "#4C607D", diagramHighlight: "#45546A", diagramHighlightText: "#F0F4FC", now: "#354FE0", onNow: "#FFFFFF", canvas: "#CBD2DC", tile: "#FFFFFF", inset: "#EDF1FC", diagram: "#34383F", node: "#E1E8F3", ink: "#202321", muted: "#5D6672",
+  line: "rgba(37,53,77,0.16)", accent: "#354FE0", accentSoft: "#E9EEFF",
+  tint: "#F1F2FE", sage: "#F0F7F3", hero: "#202321", onAccent: "#FFFFFF", onInk: "#FFFFFF",
+  header: "rgba(255,255,255,0.88)", year: "rgba(32,35,33,0.18)",
 };
 const DARK = {
-  canvas: "#121416", tile: "rgba(38,41,45,0.78)", ink: "#F3F1EC", muted: "#B5B7BB",
-  line: "rgba(243,241,236,0.16)", accent: "#FF8159", accentSoft: "#382A25",
-  hero: "rgba(29,32,35,0.84)", onAccent: "#201710", onInk: "#191B1E",
-  header: "rgba(38,41,45,0.70)", year: "rgba(243,241,236,0.22)",
+  project: "#202730", projectHover: "#263343", diagramAccent: "#82B2F4", diagramLine: "#4F6C90", diagramText: "#E4EDFA", diagramMuted: "#ADC0D8", diagramNodeMuted: "#ADC0D8", diagramHighlight: "#243D59", diagramHighlightText: "#E4EDFA", now: "#513930", onNow: "#F7D6C6", canvas: "#11161D", tile: "#252D37", inset: "#2B3542", diagram: "#17283D", node: "#243D59", ink: "#E9EDF3", muted: "#ADB8C6",
+  line: "rgba(210,224,244,0.11)", accent: "#F2A17F", accentSoft: "#3D302C",
+  tint: "#262C3D", sage: "#22332F", hero: "#171E27", onAccent: "#201710", onInk: "#191B1E",
+  header: "rgba(28,35,45,0.92)", year: "rgba(243,241,236,0.22)",
 };
 const FONTS = "family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=DM+Mono:wght@400;500";
 const mono: CSSProperties = { fontFamily: "'DM Mono', monospace" };
@@ -109,7 +109,7 @@ function BrowserFrame({ src, slug }: { src: string; slug: string }) {
 function Diagram() {
   return (
     <PipelineDiagram
-      node="var(--tile)"
+      node="var(--node)"
       line="var(--line)"
       text="var(--ink)"
       muted="var(--muted)"
@@ -123,7 +123,7 @@ function Diagram() {
 
 function WorkDiagram({ p }: { p: ConceptProject }) {
   if (!isWorkProject(p)) return null;
-  return <ArchDiagram diagram={p.diagramKey} node="var(--tile)" line="var(--line)" text="var(--ink)" muted="var(--muted)" accent="var(--accent)" font="'DM Mono', monospace" radius={8} className="w-full" />;
+  return <ArchDiagram diagram={p.diagramKey} node="var(--node)" line="var(--diagramLine)" text="var(--diagramText)" muted="var(--diagramMuted)" accent="var(--diagramAccent)" nodeMuted="var(--diagramNodeMuted)" highlightNode="var(--diagramHighlight)" highlightText="var(--diagramHighlightText)" font="'DM Mono', monospace" radius={8} className="w-full" />;
 }
 
 function Hero() {
@@ -134,19 +134,25 @@ function Hero() {
 
   return (
     <section className="grid gap-3 md:grid-cols-4">
-      <Tile i={0} className="bento-hero bg-[var(--hero)] p-7 text-white md:col-span-2 md:row-span-2 md:p-9">
-        <div className="flex h-full min-h-[400px] flex-col justify-between gap-10">
+      <Tile i={0} className="bento-hero bg-[var(--hero)] p-6 text-white md:col-span-2 md:row-span-2 md:p-9">
+        <div className="flex h-full flex-col justify-between gap-6 md:min-h-[400px] md:gap-10">
           <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/10 px-3 py-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-            <Label className="text-white/70">AI platform infrastructure</Label>
+            <Label className="text-[9px] text-white/70 md:text-[11px]">AI platform infrastructure</Label>
           </span>
           <div>
-            <h1 className="text-[clamp(3.4rem,7vw,6.2rem)] font-semibold leading-[0.88] tracking-[-0.045em]">
-              John
-              <br />
-              Gibson
-            </h1>
-            <p className="mt-6 max-w-md text-[19px] leading-snug text-white/70">{PROFILE.positioning}</p>
+            <div className="flex items-start justify-between gap-3">
+              <h1 className="text-[clamp(3rem,12vw,3.4rem)] font-semibold leading-[0.92] tracking-[-0.045em] md:text-[clamp(3.4rem,7vw,6.2rem)] md:leading-[0.88]">
+                John<br />Gibson
+              </h1>
+              <div className="shrink-0 md:hidden">
+                <div className="h-[96px] w-[74px] min-[360px]:h-[106px] min-[360px]:w-[90px] overflow-hidden rounded-[20px] ring-1 ring-white/15">
+                  <img src={PROFILE.portrait} alt="John Gibson" className="h-full w-full scale-[1.25] object-cover object-[center_35%]" />
+                </div>
+                <p style={mono} className="mt-2 text-center text-[10px] text-white/60">{PROFILE.location}</p>
+              </div>
+            </div>
+            <p className="mt-5 max-w-md text-[17px] leading-snug text-white/70 md:mt-6 md:text-[19px]">{PROFILE.positioning}</p>
           </div>
           <div className="flex flex-wrap gap-2.5">
             <CopyEmail className="inline-flex items-center gap-2 rounded-full bg-[var(--tile)] px-5 py-2.5 text-[15px] font-medium text-[var(--ink)] transition hover:bg-[var(--accentSoft)]" />
@@ -159,10 +165,13 @@ function Hero() {
               Résumé <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
+          <div className="border-t border-white/15 pt-4 md:hidden">
+            <p className="text-[13px] leading-relaxed text-white/75"><span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />Currently building internal AI tools used by <span className="font-medium text-white">400+ employees daily.</span></p>
+          </div>
         </div>
       </Tile>
 
-      <Tile i={1} className="min-h-[380px] bg-[#D9D6CF] md:col-span-1 md:row-span-2">
+      <Tile i={1} className="hidden min-h-[380px] md:block bg-[#D9D6CF] md:col-span-1 md:row-span-2">
         <img src={PROFILE.portrait} alt="John Gibson" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-x-3 bottom-3 flex items-center justify-between rounded-2xl bg-[var(--header)] px-3.5 py-2.5 backdrop-blur-md">
           <span className="text-[14px] font-medium">{PROFILE.location}</span>
@@ -172,7 +181,7 @@ function Hero() {
         </div>
       </Tile>
 
-      <Tile i={2} className="bg-[var(--accent)] p-6 text-[var(--onAccent)] md:col-span-1">
+      <Tile i={2} className="hidden bg-[var(--now)] md:block p-6 text-[var(--onNow)] md:col-span-1">
         <div className="flex h-full min-h-[190px] flex-col justify-between gap-6">
           <Label>Now</Label>
           <p className="text-[19px] font-medium leading-snug tracking-[-0.01em]">
@@ -182,7 +191,7 @@ function Hero() {
         </div>
       </Tile>
 
-      <Tile i={3} className="bg-[var(--tile)] p-6 md:col-span-1">
+      <Tile i={3} className="hidden bg-[var(--tint)] md:block p-6 md:col-span-1">
         <div className="flex h-full min-h-[190px] flex-col justify-between gap-5">
           <Label className="text-[var(--muted)]">What I build</Label>
           <p className="text-[21px] font-medium leading-snug tracking-[-0.02em]">Reliable infrastructure for useful AI.</p>
@@ -190,7 +199,7 @@ function Hero() {
         </div>
       </Tile>
 
-      <Tile i={4} className="bg-[var(--tile)] py-6 md:col-span-2">
+      <Tile i={4} className="bento-toolkit hidden bg-[var(--tint)] md:block py-6 md:col-span-2">
         <Label className="px-6 text-[var(--muted)]">Toolkit</Label>
         <div
           className="mt-5 space-y-2.5"
@@ -200,7 +209,7 @@ function Hero() {
             <div key={r} className="flex overflow-hidden">
               <div className={`bento-marquee flex shrink-0 gap-2 pr-2 ${r === 1 ? "bento-marquee-rev" : ""}`}>
                 {[...row, ...row].map((item, k) => (
-                  <span key={`${item}-${k}`} className="whitespace-nowrap rounded-full bg-[var(--canvas)] px-3.5 py-1.5 text-[14px]">
+                  <span key={`${item}-${k}`} className="whitespace-nowrap rounded-full border border-[var(--line)] bg-[var(--inset)] px-3.5 py-1.5 text-[14px]">
                     {item}
                   </span>
                 ))}
@@ -210,7 +219,7 @@ function Hero() {
         </div>
       </Tile>
 
-      <Tile i={5} className="bg-[var(--tile)] p-6 md:col-span-1">
+      <Tile i={5} className="hidden bg-[var(--sage)] md:block p-6 md:col-span-1">
         <Label className="text-[var(--muted)]">Off the clock</Label>
         <ul className="mt-5 space-y-3 text-[15px]">
           {[
@@ -219,7 +228,7 @@ function Hero() {
             { icon: Server, label: "Homelab tinkering" },
           ].map(({ icon: I, label }) => (
             <li key={label} className="flex items-center gap-3">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-[var(--canvas)]">
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-[var(--inset)]">
                 <I className="h-4 w-4" />
               </span>
               {label}
@@ -228,7 +237,7 @@ function Hero() {
         </ul>
       </Tile>
 
-      <Tile i={6} className="grid grid-cols-2 gap-1.5 bg-[var(--tile)] p-1.5 md:col-span-1">
+      <Tile i={6} className="hidden grid-cols-2 md:grid gap-1.5 bg-[var(--tile)] p-1.5 md:col-span-1">
         {[
           { icon: Github, label: "GitHub", href: PROFILE.github },
           { icon: Linkedin, label: "LinkedIn", href: PROFILE.linkedin },
@@ -240,12 +249,32 @@ function Hero() {
             href={href}
             target={href.startsWith("mailto") ? undefined : "_blank"}
             rel="noopener noreferrer"
-            className="group flex min-h-[86px] flex-col justify-between rounded-[22px] bg-[var(--canvas)] p-3.5 transition-colors hover:bg-[var(--ink)] hover:text-[var(--onInk)]"
+            className="group flex min-h-[86px] flex-col justify-between rounded-[22px] bg-[var(--inset)] p-3.5 transition-colors hover:bg-[var(--ink)] hover:text-[var(--onInk)]"
           >
             <I className="h-4 w-4" />
             <span className="text-[14px] font-medium">{label}</span>
           </a>
         ))}
+      </Tile>
+
+      <Tile i={1} className="bg-[var(--tint)] p-5 md:hidden">
+        <Label className="text-[var(--muted)]">Toolkit</Label>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {["AWS", "CDK", "Python", "TypeScript", "LiteLLM", "Open WebUI"].map((item) => (
+            <span key={item} className="rounded-full border border-[var(--line)] bg-[var(--tile)] px-2.5 py-1 text-[12px]">{item}</span>
+          ))}
+        </div>
+        <p className="mt-4 text-[12px] leading-relaxed text-[var(--muted)]">Off the clock: mountain biking, scuba diving &amp; homelab tinkering.</p>
+        <div className="mt-4 flex items-center gap-5 border-t border-[var(--line)] pt-3">
+          {[
+            { icon: Github, label: "GitHub", href: PROFILE.github },
+            { icon: Linkedin, label: "LinkedIn", href: PROFILE.linkedin },
+          ].map(({icon: Icon, label, href}) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[13px] font-medium text-[var(--accent)]">
+              <Icon aria-hidden="true" className="h-3.5 w-3.5" />{label}<ArrowUpRight aria-hidden="true" className="h-3 w-3" />
+            </a>
+          ))}
+        </div>
       </Tile>
     </section>
   );
@@ -253,7 +282,7 @@ function Hero() {
 
 function SectionHead({ title, aside, id }: { title: string; aside: string; id: string }) {
   return (
-    <Reveal className="mb-6 mt-24 flex items-end justify-between px-1 md:mt-32">
+    <Reveal className="mb-6 mt-16 flex items-end justify-between px-1 md:mt-32">
       <h2 id={id} className="scroll-mt-28 text-[clamp(2.4rem,5.5vw,4.5rem)] font-semibold leading-none tracking-[-0.045em]">
         {title}
       </h2>
@@ -269,12 +298,12 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
     <div className="grid gap-3 md:grid-cols-6">
       {WORK_PROJECTS.map((p, i) => (
         <Reveal key={p.slug} delay={i * 0.08} className="md:col-span-3">
-          <button onClick={() => onOpen(p)} className="bento-surface group flex h-full w-full flex-col rounded-[28px] bg-[var(--tile)] p-6 text-left ring-1 ring-[var(--line)] transition hover:-translate-y-1 md:p-8">
+          <button onClick={() => onOpen(p)} className="bento-surface bento-project group flex h-full w-full flex-col rounded-[28px] bg-[var(--project)] p-6 text-left ring-1 ring-[var(--line)] transition hover:-translate-y-1 md:p-8">
             <Label className="text-[var(--accent)]">{p.kind} · {p.context}</Label>
-            <h3 className="mt-4 text-[1.9rem] font-semibold leading-tight">{p.title}</h3>
-            <p className="mt-3 text-[15.5px] leading-relaxed text-[var(--muted)]">{p.summary}</p>
-            <div className="mt-6 w-full rounded-[16px] bg-[var(--canvas)] p-3 ring-1 ring-[var(--line)]"><WorkDiagram p={p} /></div>
-            <div className="mt-6 grid w-full grid-cols-2 gap-4 sm:grid-cols-4">{p.highlights.map((h) => <div key={h.label}><div className="text-[1.5rem] font-semibold">{h.value}</div><div className="text-[12px] text-[var(--muted)]">{h.label}</div></div>)}</div>
+            <h3 className="mt-4 flex min-h-[2.5em] items-start justify-between gap-3 text-[1.9rem] font-semibold leading-tight"><span>{p.title}</span><ArrowUpRight aria-hidden="true" className="mt-1.5 h-5 w-5 shrink-0 text-[var(--accent)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></h3>
+            <p className="mt-3 flex-1 text-[15.5px] leading-relaxed text-[var(--muted)]">{p.summary}</p>
+            <div className="bento-diagram mt-6 w-full rounded-[16px] bg-[var(--diagram)] p-3 ring-1 ring-[var(--line)]"><WorkDiagram p={p} /></div>
+            <div className="mt-6 grid w-full grid-cols-2 gap-4 border-t border-[var(--line)] pt-5 sm:grid-cols-4">{p.highlights.map((h) => <div key={h.label}><div className="text-[1.5rem] font-semibold">{h.value}</div><div className="text-[12px] text-[var(--muted)]">{h.label}</div></div>)}</div>
           </button>
         </Reveal>
       ))}
@@ -284,16 +313,16 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
           <Reveal key={p.slug} delay={(i % 3) * 0.06} className={SPANS[p.slug]}>
             <button
               onClick={() => onOpen(p)}
-              className={`bento-surface group relative flex h-full w-full overflow-hidden rounded-[28px] bg-[var(--tile)] p-6 text-left ring-1 ring-[var(--line)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(17,17,18,0.35)] md:p-8 ${
+              className={`bento-surface bento-project group relative flex h-full w-full overflow-hidden rounded-[28px] bg-[var(--project)] p-6 text-left ring-1 ring-[var(--line)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(17,17,18,0.35)] md:p-8 ${
                 featured ? "flex-col gap-8 md:grid md:grid-cols-[1fr_1.4fr] md:items-center" : "flex-col"
               }`}
             >
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <span
                     style={mono}
                     className={`rounded-full px-2.5 py-1 text-[11px] uppercase tracking-[0.1em] ${
-                      featured ? "bg-[var(--accent)] text-[var(--onAccent)]" : "bg-[var(--canvas)] text-[var(--muted)]"
+                      featured ? "bg-[var(--accent)] text-[var(--onAccent)]" : "bg-[var(--inset)] text-[var(--muted)]"
                     }`}
                   >
                     {p.kind}
@@ -308,13 +337,13 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
                   }`}
                 >
                   {p.title}
-                  <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-[var(--accent)] opacity-0 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
+                  <ArrowUpRight className="mt-1 h-5 w-5 shrink-0 text-[var(--accent)] opacity-70 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
                 </h3>
                 <p className="mt-3 max-w-md text-[16px] leading-relaxed text-[var(--muted)]">{p.summary}</p>
                 {featured && (
                   <div className="mt-6 flex flex-wrap gap-1.5">
                     {p.stack.map((s) => (
-                      <span key={s} style={mono} className="rounded-full bg-[var(--canvas)] px-2.5 py-1 text-[11px]">
+                      <span key={s} style={mono} className="rounded-full bg-[var(--inset)] px-2.5 py-1 text-[11px]">
                         {s}
                       </span>
                     ))}
@@ -396,7 +425,7 @@ function Path() {
                 {r.stack.length > 0 && (
                   <div className="mt-5 flex flex-wrap gap-1.5">
                     {r.stack.map((s) => (
-                      <span key={s} style={mono} className="rounded-full bg-[var(--canvas)] px-2.5 py-1 text-[11px]">
+                      <span key={s} style={mono} className="rounded-full bg-[var(--inset)] px-2.5 py-1 text-[11px]">
                         {s}
                       </span>
                     ))}
@@ -459,7 +488,7 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
           >
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--canvas)] hover:bg-[var(--ink)] hover:text-[var(--onInk)]"
+              className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-[var(--inset)] hover:bg-[var(--ink)] hover:text-[var(--onInk)]"
               aria-label="Close"
             >
               <X className="h-4 w-4" />
@@ -472,7 +501,7 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
 
             <div className="mt-8">
               {isWorkProject(p) ? (
-                <div className="rounded-[20px] bg-[var(--canvas)] p-4"><WorkDiagram p={p} /></div>
+                <div className="bento-diagram rounded-[20px] bg-[var(--diagram)] p-4"><WorkDiagram p={p} /></div>
               ) : p.diagram ? (
                 <div className="rounded-[20px] bg-[var(--accentSoft)] p-4">
                   <Diagram />
@@ -502,11 +531,12 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
               ))}
             </div>
 
+            {isWorkProject(p) && <div className="mt-6 grid grid-cols-2 gap-4 rounded-2xl bg-[var(--inset)] p-4 sm:grid-cols-4">{p.highlights.map((h) => <div key={h.label}><p className="text-[22px] font-semibold">{h.value}</p><p className="text-[12px] text-[var(--muted)]">{h.label}</p></div>)}</div>}
             {isWorkProject(p) && <div className="mt-8"><Label className="text-[var(--accent)]">Contributions</Label><ul className="mt-3 list-disc space-y-2 pl-5 text-[15px]">{p.contributions.map((item) => <li key={item}>{item}</li>)}</ul></div>}
 
             <div className="mt-8 flex flex-wrap gap-1.5">
               {p.stack.map((s) => (
-                <span key={s} style={mono} className="rounded-full bg-[var(--canvas)] px-2.5 py-1 text-[11px]">
+                <span key={s} style={mono} className="rounded-full bg-[var(--inset)] px-2.5 py-1 text-[11px]">
                   {s}
                 </span>
               ))}
@@ -569,6 +599,22 @@ export default function Bento() {
     colorScheme: dark ? "dark" : "light",
     "--canvas": C.canvas,
     "--tile": C.tile,
+    "--project": C.project,
+    "--projectHover": C.projectHover,
+    "--diagramAccent": C.diagramAccent,
+    "--diagramLine": C.diagramLine,
+    "--diagramText": C.diagramText,
+    "--diagramMuted": C.diagramMuted,
+    "--diagramNodeMuted": C.diagramNodeMuted,
+    "--diagramHighlight": C.diagramHighlight,
+    "--diagramHighlightText": C.diagramHighlightText,
+    "--now": C.now,
+    "--onNow": C.onNow,
+    "--inset": C.inset,
+    "--tint": C.tint,
+    "--sage": C.sage,
+    "--diagram": C.diagram,
+    "--node": C.node,
     "--ink": C.ink,
     "--muted": C.muted,
     "--line": C.line,
@@ -583,17 +629,11 @@ export default function Bento() {
     <MotionConfig reducedMotion="user">
       <style>{`
         [data-bento-theme="light"] {
-          background-image:
-            radial-gradient(ellipse at 8% 8%, rgba(123,148,179,0.30), transparent 52%),
-            radial-gradient(ellipse at 90% 28%, rgba(238,244,252,0.52), transparent 48%),
-            linear-gradient(125deg, rgba(255,255,255,0.22), transparent 45%, rgba(102,120,145,0.14));
+          background-image: radial-gradient(ellipse at 85% 0%, rgba(53,79,224,0.045), transparent 60%);
           background-attachment: fixed;
         }
         [data-bento-theme="light"] .bento-surface {
-          background-image: linear-gradient(135deg, rgba(255,255,255,0.25), rgba(255,255,255,0.03) 65%);
-          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), inset 0 1px 0 rgba(255,255,255,0.65), 0 14px 32px -24px rgba(42,58,78,0.42);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), 0 2px 4px rgba(37,53,77,0.035), 0 12px 28px -16px rgba(37,53,77,0.30);
         }
         [data-bento-theme="light"] .bento-hero {
           background-image: linear-gradient(135deg, rgba(255,255,255,0.035), transparent 65%);
@@ -602,18 +642,39 @@ export default function Bento() {
           background-image: radial-gradient(ellipse at 85% 0%, rgba(255,129,89,0.07), transparent 650px);
         }
         [data-bento-theme="dark"] .bento-surface {
-          background-image: linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0) 55%);
-          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), inset 0 1px 0 rgba(255,255,255,0.10), 0 12px 32px -22px rgba(0,0,0,0.6);
+          background-image: linear-gradient(135deg, rgba(255,255,255,0.025), rgba(255,255,255,0) 55%);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), inset 0 1px 0 rgba(255,255,255,0.04), 0 12px 32px -22px rgba(0,0,0,0.6);
           backdrop-filter: blur(18px);
           -webkit-backdrop-filter: blur(18px);
         }
         [data-bento-theme="dark"] .bento-hero {
           background-image: radial-gradient(ellipse at top right, rgba(255,129,89,0.09), transparent 65%), linear-gradient(135deg, rgba(255,255,255,0.04), transparent 55%);
         }
+        [data-bento-theme] .bento-project { transition: background-color 180ms ease, transform 180ms ease; }
+        [data-bento-theme] .bento-project:hover { background-color: var(--projectHover); }
+        [data-bento-theme="dark"] .bento-hero button {
+          background-color: var(--accentSoft);
+          color: var(--accent);
+        }
+        [data-bento-theme] .bento-diagram {
+          background-image: radial-gradient(var(--line) 0.7px, transparent 0.7px);
+          background-size: 12px 12px;
+        }
+        [data-bento-theme="light"] .bento-diagram { background-image: none; }
+        [data-bento-theme="light"] .bento-project {
+          --line: rgba(58, 67, 109, 0.12);
+          --inset: #DEE2F1;
+        }
+        [data-bento-theme] :is(a, button):focus-visible {
+          outline: 2px solid var(--accent);
+          outline-offset: 4px;
+        }
+        [data-bento-theme] .bento-marquee:focus-within,
+        [data-bento-theme] .bento-toolkit:hover .bento-marquee { animation-play-state: paused; }
         @keyframes bento-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .bento-marquee { animation: bento-marquee 40s linear infinite; }
         .bento-marquee-rev { animation-direction: reverse; }
-        @media (prefers-reduced-motion: reduce) { .bento-marquee { animation: none; } }
+        @media (prefers-reduced-motion: reduce) { .bento-marquee { animation: none; } [data-bento-theme] .bento-project, [data-bento-theme] .bento-project * { transition: none; transform: none; } }
       `}</style>
       <div style={vars} data-bento-theme={dark ? "dark" : "light"} className="min-h-screen selection:bg-[var(--accent)] selection:text-white">
         <header className="sticky top-3 z-40 px-3">
@@ -631,7 +692,7 @@ export default function Bento() {
                 ["#path", "Path"],
                 ["#contact", "Contact"],
               ].map(([href, label]) => (
-                <a key={href} href={href} className="hidden rounded-full px-3.5 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--canvas)] hover:text-[var(--ink)] sm:inline">
+                <a key={href} href={href} className="hidden rounded-full px-3.5 py-2 text-[var(--muted)] transition-colors hover:bg-[var(--inset)] hover:text-[var(--ink)] sm:inline">
                   {label}
                 </a>
               ))}
@@ -649,20 +710,20 @@ export default function Bento() {
                 aria-checked={dark}
                 aria-label="Dark mode"
                 onClick={() => setDark((value) => !value)}
-                className="ml-2 inline-flex min-h-10 items-center gap-1 rounded-full bg-[var(--canvas)] p-1 ring-1 ring-[var(--line)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
+                className="ml-2 inline-flex min-h-10 items-center gap-1 rounded-full bg-[var(--inset)] p-1 ring-1 ring-[var(--line)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]"
               >
                 <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[12px] font-medium ${!dark ? "bg-[var(--tile)] text-[var(--ink)] shadow-sm" : "text-[var(--muted)]"}`}>
-                  <Sun className="h-3.5 w-3.5" aria-hidden="true" /> Light
+                  <Sun className="h-3.5 w-3.5" aria-hidden="true" /> <span className="hidden min-[360px]:inline">Light</span>
                 </span>
                 <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[12px] font-medium ${dark ? "bg-[var(--accent)] text-[var(--onAccent)] shadow-sm" : "text-[var(--muted)]"}`}>
-                  <Moon className="h-3.5 w-3.5" aria-hidden="true" /> Dark
+                  <Moon className="h-3.5 w-3.5" aria-hidden="true" /> <span className="hidden min-[360px]:inline">Dark</span>
                 </span>
               </button>
             </nav>
           </div>
         </header>
 
-        <main id="top" className="mx-auto max-w-[1240px] px-3 pb-10 pt-6 md:px-3">
+        <main id="top" className="scroll-mt-24 mx-auto max-w-[1240px] px-3 pb-10 pt-6 md:px-3">
           <Hero />
 
           <SectionHead id="work" title="Selected work" aside={`(${String(WORK_PROJECTS.length + PROJECTS.length - 1).padStart(2, "0")})`} />

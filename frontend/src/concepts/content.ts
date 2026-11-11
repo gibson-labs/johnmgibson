@@ -305,7 +305,7 @@ export const WORK_PROJECTS: WorkProject[] = [
       { value: "400+", label: "employees" },
       { value: "12", label: "CDK stacks" },
       { value: "2–10", label: "auto-scaling tasks" },
-      { value: "0", label: "long-lived credentials" },
+      { value: "SSO", label: "OIDC sign-in" },
     ],
     contributions: [
       "Built TypeScript MCP servers so Claude Code can manage users, models, prompts, and tools directly.",

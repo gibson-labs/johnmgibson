@@ -108,13 +108,16 @@ interface Props {
   text: string;
   muted: string;
   accent: string;
+  nodeMuted?: string;
+  highlightNode?: string;
+  highlightText?: string;
   font: string;
   radius?: number;
   className?: string;
 }
 
 /** Simplified, themeable architecture sketch for the two work platforms. */
-export default function ArchDiagram({ diagram, node, line, text, muted, accent, font, radius = 4, className }: Props) {
+export default function ArchDiagram({ diagram, node, line, text, muted, accent, nodeMuted = muted, highlightNode = node, highlightText = text, font, radius = 4, className }: Props) {
   const spec = SPECS[diagram];
   return (
     <svg viewBox="0 0 720 316" className={className} style={{ fontFamily: font }} role="img" aria-label={spec.aria}>
@@ -142,7 +145,7 @@ export default function ArchDiagram({ diagram, node, line, text, muted, accent, 
               width={b.w}
               height={b.h}
               rx={radius}
-              fill={node}
+              fill={b.highlight ? highlightNode : node}
               stroke={b.highlight ? accent : b.ghost ? muted : line}
               strokeWidth={b.highlight ? 1.5 : 1}
               strokeDasharray={b.ghost ? "3 3" : undefined}
@@ -152,14 +155,14 @@ export default function ArchDiagram({ diagram, node, line, text, muted, accent, 
               y={b.sub ? cy - 7 : cy}
               textAnchor="middle"
               dominantBaseline="central"
-              fill={text}
+              fill={b.highlight ? highlightText : text}
               fontSize={12.5}
               fontWeight={500}
             >
               {b.label}
             </text>
             {b.sub && (
-              <text x={cx} y={cy + 11} textAnchor="middle" dominantBaseline="central" fill={muted} fontSize={9.5} letterSpacing="0.06em">
+              <text x={cx} y={cy + 11} textAnchor="middle" dominantBaseline="central" fill={b.highlight ? muted : nodeMuted} fontSize={9.5} letterSpacing="0.06em">
                 {b.sub.toUpperCase()}
               </text>
             )}

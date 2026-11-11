@@ -22,7 +22,16 @@ export default function CareerOverview() {
   const lastYear = Math.max(2027, new Date(now).getUTCFullYear() + 1);
   const axisStart = Date.UTC(firstYear, 0, 1), axisEnd = Date.UTC(lastYear, 0, 1);
   const ticks = Array.from({ length: lastYear - firstYear + 1 }, (_, i) => firstYear + i);
-  const pct = (date: number) => Math.max(0, Math.min(100, (date - axisStart) / (axisEnd - axisStart) * 100));
+  // Give recent roles more space using one shared, explicitly labeled time scale.
+  const earlyEnd = Math.max(axisStart, Math.min(axisEnd, Date.UTC(2023, 0, 1)));
+  const earlySpan = earlyEnd - axisStart;
+  const earlyWeight = 0.55;
+  const weightedSpan = earlySpan * earlyWeight + axisEnd - earlyEnd;
+  const pct = (date: number) => {
+    const elapsed = Math.max(0, Math.min(axisEnd - axisStart, date - axisStart));
+    return (Math.min(elapsed, earlySpan) * earlyWeight + Math.max(0, elapsed - earlySpan)) / weightedSpan * 100;
+  };
+  const labeledTicks = ticks.filter((year) => year !== 2022);
   const grid = "grid grid-cols-1 gap-2 md:grid-cols-[minmax(0,21rem)_1fr] md:gap-6";
   return (
     <div className="bento-surface overflow-hidden rounded-[28px] bg-[var(--tile)] ring-1 ring-[var(--line)]">
@@ -33,9 +42,10 @@ export default function CareerOverview() {
       <div className={`${grid} px-5 pb-2 pt-3 md:px-7`} aria-hidden="true">
         <span className="hidden text-[12px] text-[var(--muted)] md:block">Roles & education</span>
         <div className="relative h-5">
-          {ticks.map((year) => <span key={year} className="absolute text-[11px] text-[var(--muted)]" style={{ left: `${pct(Date.UTC(year, 0, 1))}%`, transform: year === firstYear ? "none" : year === lastYear ? "translateX(-100%)" : "translateX(-50%)" }}>{year}</span>)}
+          {labeledTicks.map((year) => <span key={year} className="absolute text-[11px] text-[var(--muted)]" style={{ left: `${pct(Date.UTC(year, 0, 1))}%`, transform: year === firstYear ? "none" : year === lastYear ? "translateX(-100%)" : "translateX(-50%)" }}>{year}</span>)}
         </div>
       </div>
+      <p className="px-5 pb-3 text-[11px] text-[var(--muted)] md:px-7">Compressed scale before 2023 · exact dates and durations shown for each role.</p>
       {rows.map((r) => {
         const span = TIMELINE_SPANS[r.id];
         const start = Date.parse(span.start), end = span.end ? Date.parse(span.end) : now;
