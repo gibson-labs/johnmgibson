@@ -2,6 +2,22 @@
 
 This file tracks all development work, changes, and enhancements made to the project. Use this to understand recent modifications and the evolution of the codebase.
 
+## 2026-11-12 — Local portfolio design refinement
+
+Preserved the November 10 Bento layout, portrait, themes, architecture diagrams, and career views. Finalized the Gallery light palette: neutral gray canvas, indigo and eucalyptus supporting tiles, softly lavender-gray project cards, and softer shadows. Added an accent-colored Explore my work action, scrolling toolkit (restored after user review to retain the original compact tile height), section dividers, explicit case-study actions, and balanced project preview columns. Replaced the custom overlay with a native modal dialog for focus containment, Escape dismissal, and focus restoration. Added a skip link and named navigation.
+
+Older concepts and secondary pages now load on demand. The main production JavaScript bundle fell from approximately 602 kB to 506 kB (183 kB to 162 kB compressed). A bundle-size advisory remains; no dependencies added.
+
+Validation: production build, desktop light/dark visual checks, 390px and 320px layout checks, project dialog open/close and Escape focus restoration, resume endpoint. Removed the temporary palette comparison controls after user selection. Preview at http://127.0.0.1:5173/.
+
+### Design opportunities for the next pass
+- Give the two professional projects shareable detail URLs and room for engineering tradeoffs and lessons learned.
+- Add verified visual evidence and outcomes for the billing project; earlier development notes explicitly mention placeholder narratives, so confirm figures before elevating them.
+- Reconcile the older /projects and /contact pages with the Bento design; currently they retain the earlier visual system.
+- Review mobile architecture diagrams at real-device size; they are dense even when the layout fits.
+- Consider moving supporting toolkit and social tiles below the featured projects to get visitors to the evidence sooner. This pass preserves the existing hero composition for comparison.
+
+
 ---
 
 ## 2025-11-21 - Project Card Modal Enhancement
