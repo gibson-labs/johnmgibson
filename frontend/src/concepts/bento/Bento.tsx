@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import { ArrowUpRight, Bike, Check, Copy, FileText, Github, GraduationCap, Linkedin, Moon, Server, Sun, Waves, X } from "lucide-react";
@@ -12,10 +12,10 @@ import CareerOverview from "./CareerOverview";
 
 // One Bento layout, with distinct light and night palettes.
 const LIGHT = {
-  project: "#E9EAF5", projectHover: "#E1E3F1", diagramAccent: "#9DBBFF", diagramLine: "#8A9AAF", diagramText: "#25364E", diagramMuted: "#C0CAD8", diagramNodeMuted: "#4C607D", diagramHighlight: "#45546A", diagramHighlightText: "#F0F4FC", now: "#354FE0", onNow: "#FFFFFF", canvas: "#CBD2DC", tile: "#FFFFFF", inset: "#EDF1FC", diagram: "#34383F", node: "#E1E8F3", ink: "#202321", muted: "#5D6672",
-  line: "rgba(37,53,77,0.16)", accent: "#354FE0", accentSoft: "#E9EEFF",
-  tint: "#F1F2FE", sage: "#F0F7F3", hero: "#202321", onAccent: "#FFFFFF", onInk: "#FFFFFF",
-  header: "rgba(255,255,255,0.88)", year: "rgba(32,35,33,0.18)",
+  project: "#E8E8EF", projectHover: "#DFDFE9", diagramAccent: "#9DBBFF", diagramLine: "#8A9AAF", diagramText: "#25364E", diagramMuted: "#C0CAD8", diagramNodeMuted: "#4C607D", diagramHighlight: "#45546A", diagramHighlightText: "#F0F4FC", now: "#354FE0", onNow: "#FFFFFF", canvas: "#DCDDDF", tile: "#F4F5F7", inset: "#CED3E0", diagram: "#34383F", node: "#E1E8F3", ink: "#202321", muted: "#5D6672",
+  line: "rgba(35,46,61,0.25)", accent: "#354FE0", accentSoft: "#E9EEFF",
+  tint: "#B8C0DA", sage: "#9FBEAD", hero: "#202321", onAccent: "#FFFFFF", onInk: "#FFFFFF",
+  header: "rgba(244,245,247,0.96)", year: "rgba(32,35,33,0.18)",
 };
 const DARK = {
   project: "#202730", projectHover: "#263343", diagramAccent: "#82B2F4", diagramLine: "#4F6C90", diagramText: "#E4EDFA", diagramMuted: "#ADC0D8", diagramNodeMuted: "#ADC0D8", diagramHighlight: "#243D59", diagramHighlightText: "#E4EDFA", now: "#513930", onNow: "#F7D6C6", canvas: "#11161D", tile: "#252D37", inset: "#2B3542", diagram: "#17283D", node: "#243D59", ink: "#E9EDF3", muted: "#ADB8C6",
@@ -29,8 +29,8 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 const SPANS: Record<string, string> = {
   "ai-gateway": "md:col-span-6",
-  "homelab-monitor": "md:col-span-2",
-  "billing-platform": "md:col-span-4",
+  "homelab-monitor": "md:col-span-3",
+  "billing-platform": "md:col-span-3",
   cineniche: "md:col-span-3",
   "turtle-shelter": "md:col-span-3",
 };
@@ -155,7 +155,7 @@ function Hero() {
             <p className="mt-5 max-w-md text-[17px] leading-snug text-white/70 md:mt-6 md:text-[19px]">{PROFILE.positioning}</p>
           </div>
           <div className="flex flex-wrap gap-2.5">
-            <CopyEmail className="inline-flex items-center gap-2 rounded-full bg-[var(--tile)] px-5 py-2.5 text-[15px] font-medium text-[var(--ink)] transition hover:bg-[var(--accentSoft)]" />
+            <a href="#work" className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2.5 text-[15px] font-medium text-[var(--onAccent)] transition hover:brightness-110">Explore my work <ArrowUpRight aria-hidden="true" className="h-4 w-4" /></a>
             <a
               href={PROFILE.resume}
               target="_blank"
@@ -282,8 +282,8 @@ function Hero() {
 
 function SectionHead({ title, aside, id }: { title: string; aside: string; id: string }) {
   return (
-    <Reveal className="mb-6 mt-16 flex items-end justify-between px-1 md:mt-32">
-      <h2 id={id} className="scroll-mt-28 text-[clamp(2.4rem,5.5vw,4.5rem)] font-semibold leading-none tracking-[-0.045em]">
+    <Reveal className="mb-6 mt-16 flex items-end justify-between gap-4 border-t border-[var(--line)] px-1 pt-8 md:mt-24">
+      <h2 id={id} className="scroll-mt-28 text-[clamp(2.2rem,5.5vw,3.6rem)] font-semibold leading-none tracking-[-0.045em]">
         {title}
       </h2>
       <span style={mono} className="pb-2 text-[12px] text-[var(--muted)]">
@@ -298,12 +298,13 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
     <div className="grid gap-3 md:grid-cols-6">
       {WORK_PROJECTS.map((p, i) => (
         <Reveal key={p.slug} delay={i * 0.08} className="md:col-span-3">
-          <button onClick={() => onOpen(p)} className="bento-surface bento-project group flex h-full w-full flex-col rounded-[28px] bg-[var(--project)] p-6 text-left ring-1 ring-[var(--line)] transition hover:-translate-y-1 md:p-8">
-            <Label className="text-[var(--accent)]">{p.kind} · {p.context}</Label>
+          <button aria-label={`Read case study: ${p.title}`} onClick={() => onOpen(p)} className="bento-surface bento-project group flex h-full w-full flex-col rounded-[28px] bg-[var(--project)] p-6 text-left ring-1 ring-[var(--line)] transition hover:-translate-y-1 md:p-8">
+            <div className="flex w-full items-center justify-between gap-3"><Label className="text-[var(--accent)]">{p.kind} · {p.context}</Label><span style={mono} className="text-[11px] text-[var(--muted)]">0{i + 1}</span></div>
             <h3 className="mt-4 flex min-h-[2.5em] items-start justify-between gap-3 text-[1.9rem] font-semibold leading-tight"><span>{p.title}</span><ArrowUpRight aria-hidden="true" className="mt-1.5 h-5 w-5 shrink-0 text-[var(--accent)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" /></h3>
             <p className="mt-3 flex-1 text-[15.5px] leading-relaxed text-[var(--muted)]">{p.summary}</p>
             <div className="bento-diagram mt-6 w-full rounded-[16px] bg-[var(--diagram)] p-3 ring-1 ring-[var(--line)]"><WorkDiagram p={p} /></div>
             <div className="mt-6 grid w-full grid-cols-2 gap-4 border-t border-[var(--line)] pt-5 sm:grid-cols-4">{p.highlights.map((h) => <div key={h.label}><div className="text-[1.5rem] font-semibold">{h.value}</div><div className="text-[12px] text-[var(--muted)]">{h.label}</div></div>)}</div>
+            <span className="mt-6 flex w-full items-center justify-between text-[13px] font-medium text-[var(--accent)]">Explore case study <ArrowUpRight aria-hidden="true" className="h-4 w-4" /></span>
           </button>
         </Reveal>
       ))}
@@ -313,6 +314,7 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
           <Reveal key={p.slug} delay={(i % 3) * 0.06} className={SPANS[p.slug]}>
             <button
               onClick={() => onOpen(p)}
+              aria-label={`Read case study: ${p.title}`}
               className={`bento-surface bento-project group relative flex h-full w-full overflow-hidden rounded-[28px] bg-[var(--project)] p-6 text-left ring-1 ring-[var(--line)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-28px_rgba(17,17,18,0.35)] md:p-8 ${
                 featured ? "flex-col gap-8 md:grid md:grid-cols-[1fr_1.4fr] md:items-center" : "flex-col"
               }`}
@@ -356,11 +358,12 @@ function Work({ onOpen }: { onOpen: (p: ConceptProject) => void }) {
                 </div>
               ) : (
                 p.image && (
-                  <div className="-mb-14 mt-8 translate-y-3 transition-transform duration-500 group-hover:translate-y-0">
+                  <div className="mt-6 w-full overflow-hidden rounded-[14px] max-h-[240px] transition-transform duration-500 group-hover:-translate-y-1">
                     <BrowserFrame src={p.image} slug={p.slug} />
                   </div>
                 )
               )}
+              <span className="mt-6 flex w-full items-center justify-between border-t border-[var(--line)] pt-4 text-[13px] font-medium text-[var(--accent)]">Explore project <ArrowUpRight aria-hidden="true" className="h-4 w-4" /></span>
             </button>
           </Reveal>
         );
@@ -455,30 +458,35 @@ function Path() {
 }
 
 function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () => void }) {
+  const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
-    if (!p) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
+    if (!p || !dialog.current) return;
+    const element = dialog.current;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    element.showModal();
     document.body.style.overflow = "hidden";
     return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      element.close();
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus({ preventScroll: true });
     };
-  }, [p, onClose]);
+  }, [p]);
 
   return (
     <AnimatePresence>
       {p && (
-        <motion.div
-          className="fixed inset-0 z-[70] flex items-end justify-center bg-[rgba(17,17,18,0.45)] p-3 backdrop-blur-sm sm:items-center sm:p-6"
+        <motion.dialog
+          ref={dialog}
+          aria-label={p.title}
+          onCancel={(event) => { event.preventDefault(); onClose(); }}
+          className="fixed inset-0 z-[70] m-0 h-dvh max-h-none w-screen max-w-none items-end justify-center border-0 bg-[rgba(17,17,18,0.45)] p-3 text-[var(--ink)] backdrop-blur-sm open:flex sm:items-center sm:p-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         >
           <motion.div
-            role="dialog"
-            aria-label={p.title}
             onClick={(e) => e.stopPropagation()}
             initial={{ y: 40, opacity: 0, scale: 0.98 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -566,7 +574,7 @@ function ProjectSheet({ p, onClose }: { p: ConceptProject | null; onClose: () =>
               </div>
             )}
           </motion.div>
-        </motion.div>
+        </motion.dialog>
       )}
     </AnimatePresence>
   );
@@ -628,12 +636,13 @@ export default function Bento() {
   return (
     <MotionConfig reducedMotion="user">
       <style>{`
+        [data-bento-theme] dialog::backdrop { background: transparent; }
         [data-bento-theme="light"] {
           background-image: radial-gradient(ellipse at 85% 0%, rgba(53,79,224,0.045), transparent 60%);
           background-attachment: fixed;
         }
         [data-bento-theme="light"] .bento-surface {
-          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), 0 2px 4px rgba(37,53,77,0.035), 0 12px 28px -16px rgba(37,53,77,0.30);
+          box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), 0 2px 4px rgba(37,53,77,0.02), 0 8px 24px -18px rgba(37,53,77,0.18);
         }
         [data-bento-theme="light"] .bento-hero {
           background-image: linear-gradient(135deg, rgba(255,255,255,0.035), transparent 65%);
@@ -677,6 +686,7 @@ export default function Bento() {
         @media (prefers-reduced-motion: reduce) { .bento-marquee { animation: none; } [data-bento-theme] .bento-project, [data-bento-theme] .bento-project * { transition: none; transform: none; } }
       `}</style>
       <div style={vars} data-bento-theme={dark ? "dark" : "light"} className="min-h-screen selection:bg-[var(--accent)] selection:text-white">
+        <a href="#top" className="sr-only focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-50 focus:rounded-full focus:bg-[var(--tile)] focus:px-5 focus:py-3">Skip to content</a>
         <header className="sticky top-3 z-40 px-3">
           <div
             className="mx-auto flex max-w-[1240px] items-center justify-between rounded-full py-2 pl-2 pr-2 ring-1 ring-[var(--line)] backdrop-blur-md"
@@ -686,7 +696,7 @@ export default function Bento() {
               <span className="grid h-9 w-9 place-items-center rounded-full bg-[var(--ink)] text-[12px] font-semibold text-[var(--onInk)]">JG</span>
               <span className="hidden text-[16px] font-semibold tracking-[-0.02em] sm:inline">John Gibson</span>
             </a>
-            <nav className="flex items-center gap-1 text-[15px]">
+            <nav aria-label="Main navigation" className="flex items-center gap-1 text-[15px]">
               {[
                 ["#work", "Work"],
                 ["#path", "Path"],
@@ -723,10 +733,11 @@ export default function Bento() {
           </div>
         </header>
 
-        <main id="top" className="scroll-mt-24 mx-auto max-w-[1240px] px-3 pb-10 pt-6 md:px-3">
+        <main tabIndex={-1} id="top" className="scroll-mt-24 mx-auto max-w-[1240px] px-3 pb-10 pt-6 md:px-3">
           <Hero />
 
           <SectionHead id="work" title="Selected work" aside={`(${String(WORK_PROJECTS.length + PROJECTS.length - 1).padStart(2, "0")})`} />
+          <p className="-mt-2 mb-7 max-w-xl text-[16px] leading-relaxed text-[var(--muted)]">From AI infrastructure at MasterControl to tools built for real people. Open a project for the problem, the approach, and the outcome.</p>
           <Work onOpen={setSelected} />
 
           <SectionHead id="path" title="The path so far" aside="2021 — now" />
